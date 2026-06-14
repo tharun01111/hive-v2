@@ -1,10 +1,23 @@
 import type { Request, Response } from "express"
 import { prisma } from "../lib/prisma";
+import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
 
+export const createToken =  (user: Request) => {
+  const token =  jwt.sign({
+    id: user.id,
+    role: user.role
+  }, process.env.JWT_SECRET_KEY!, {
+    expiresIn: "7d"
+  });
+  return token;
+}
 
 export const registerController = async(req: Request, res: Response) => {
+
   const { username, email, password } = req.body;
+
+  console.log(`[REGISTER_ATTEMPT] Email: ${email}`);
 
   try{
   const matching = await prisma.user.findUnique({
@@ -38,10 +51,14 @@ export const registerController = async(req: Request, res: Response) => {
     }
   });
 
-  console.log("Request to the registerController: ", user);
-  res.status(201).json({ success: true, user });
+  const token = createToken(user);
+
+  console.log(`[REGISTER_SUCCESS] Email: ${email}`);
+  res.status(201).json({ success: true, user, token });
 
 } catch (err) {
+  const { email } = req.body;
+  console.log(`[REGISTER_FAILED] Email: ${email}`);
   console.error("Error occured in register controller: ", err);
   res.status(500).json({ error: "Internal Server Error" });
 }
@@ -51,6 +68,9 @@ export const registerController = async(req: Request, res: Response) => {
 
 export const loginController = async(req: Request, res: Response) => {
   const { email, password } = req.body;
+
+  console.log(`[LOGIN_ATTEMPT] Email: ${email}`);
+
 
   try {
 
@@ -78,6 +98,9 @@ export const loginController = async(req: Request, res: Response) => {
 
     const { id, username, role } = user;
 
+    const token = createToken(user);
+
+    console.log(`[LOGIN_SUCCESS] Email: ${email}`);
     return res.status(200).json({
       success: true,
       user: {
@@ -85,10 +108,13 @@ export const loginController = async(req: Request, res: Response) => {
         email,
         username,
         role
-      }
+      },
+      token
     });
     
   } catch(err) {
+    const { email } = req.body;
+    console.log(`[LOGIN_FAILED] Email: ${email}`);
     console.error("Error in login controller: ", err);
     res.status(500).json({ error: "Internal Server Error" });
   }

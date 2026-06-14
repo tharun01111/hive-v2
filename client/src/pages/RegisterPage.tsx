@@ -123,6 +123,7 @@ const RegisterPage = () => {
             <p>Email: {data.user.email}</p>
             <p>Username: {data.user.username}</p>
             <p>Role: {data.user.role}</p>
+            <p>Token: {data.token}</p>
           </div>
         )}
       </div>

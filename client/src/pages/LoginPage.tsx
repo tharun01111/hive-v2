@@ -14,6 +14,7 @@ const LoginPage = () => {
   const runLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   try {
+    setData(null);
     setLoading(true);
     setError("");
     
@@ -112,12 +113,11 @@ const LoginPage = () => {
           <div className="mt-4 p-4 bg-green-100 rounded">
             <h3>Login Successful</h3>
 
-            {/* <p>ID: {data.user.id}</p> */}
-            <pre>
-  {JSON.stringify(data, null, 2)}
-</pre>
+            <p>ID: {data.user.id}</p>
+            <pre> { JSON.stringify(data, null, 2) }</pre>
             <p>Username: {data.user.username}</p>
             <p>Role: {data.user.role}</p>
+            <p>Token: {data.token}</p>
           </div>
         )}
 

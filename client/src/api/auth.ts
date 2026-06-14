@@ -15,12 +15,12 @@ export const registerUser = async (
   user: RegisterUser
 ) => {
   const response = await api.post("/auth/register", user);
-  return response;
+  return response.data;
 };
 
 export const loginUser = async (
   user: LoginUser
 ) => {
   const response = await api.post("/auth/login", user);
-  return response;
+  return response.data;
 };

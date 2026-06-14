@@ -1,10 +1,13 @@
 import express, { type Request, type Response } from "express";
+import { prisma } from "./lib/prisma";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
+import { logger } from "./middleware/logger";
 
 const PORT = process.env.PORT;
 
 const app = express();
+app.use(logger);
 app.use(express.json());
 
 app.use(cors({
