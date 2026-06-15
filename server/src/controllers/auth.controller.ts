@@ -3,7 +3,12 @@ import { prisma } from "../lib/prisma";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
 
-export const createToken =  (user: Request) => {
+type TokenUser = {
+  id: number;
+  role: string;
+};
+
+export const createToken =  (user: TokenUser) => {
   const token =  jwt.sign({
     id: user.id,
     role: user.role

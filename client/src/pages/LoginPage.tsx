@@ -3,6 +3,7 @@ import { loginUser } from "../api/auth";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -19,8 +20,9 @@ const LoginPage = () => {
     setError("");
     
     const response = await loginUser(user);
-    console.log(data);
     setData(response);
+    
+    localStorage.setItem("token ", response.token);
 
   } catch (err: any) {
 
@@ -112,12 +114,7 @@ const LoginPage = () => {
           {data && (
           <div className="mt-4 p-4 bg-green-100 rounded">
             <h3>Login Successful</h3>
-
-            <p>ID: {data.user.id}</p>
             <pre> { JSON.stringify(data, null, 2) }</pre>
-            <p>Username: {data.user.username}</p>
-            <p>Role: {data.user.role}</p>
-            <p>Token: {data.token}</p>
           </div>
         )}
 
