@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 export const logger = async(req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
@@ -7,7 +7,7 @@ export const logger = async(req: Request, res: Response, next: NextFunction) => 
     `\n[Request]
       Method: ${req.method}
       Route: ${req.originalUrl}
-      Time: ${new Date().toISOString()}`
+      Time: ${new Date().toISOString()} \n`
   );
 
   res.on("finish", () => {
@@ -21,6 +21,6 @@ export const logger = async(req: Request, res: Response, next: NextFunction) => 
       Duration(ms): ${duration}ms \n`
   );
   });
-  
+
   next();
 }
