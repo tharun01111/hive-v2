@@ -1,8 +1,13 @@
-
+import DashboardHero from '@/components/dashboard/DashboardHero'
+import DashboardStats from '@/components/dashboard/DashboardStats'
+import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <DashboardHero name='Tharun'/>
+      <DashboardStats />
+    </div>
   )
 }
 
