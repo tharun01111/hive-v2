@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { registerUser } from "../api/auth";
+import { registerUser } from "../services/authService";
 import { Link } from "react-router-dom";
 
 const RegisterPage = () => {

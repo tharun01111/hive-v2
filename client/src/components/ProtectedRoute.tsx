@@ -4,9 +4,9 @@ type ProtectedRouteProps = {
   children: React.ReactNode
 }
 
-const ProtectedRoute = ({children}: ProtectedRouteProps) => {
+const ProtectedRoute = async ({children}: ProtectedRouteProps) => {
 
-  const token = localStorage.getItem("token ");
+  const token = localStorage.getItem("token");
 
   return token ? children : <Navigate to="/login" replace />
 }

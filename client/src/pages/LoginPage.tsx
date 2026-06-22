@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { loginUser } from "../api/auth";
-import { Link } from "react-router-dom";
+import { loginUser } from "@/services/authService";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -22,7 +23,8 @@ const LoginPage = () => {
     const response = await loginUser(user);
     setData(response);
     
-    localStorage.setItem("token ", response.token);
+    localStorage.setItem("token", response.token);
+    navigate("/dashboard");
 
   } catch (err: any) {
 

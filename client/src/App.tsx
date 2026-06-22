@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import { useEffect } from "react"
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
