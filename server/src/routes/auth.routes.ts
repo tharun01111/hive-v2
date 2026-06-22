@@ -1,9 +1,8 @@
 import express from "express";
 import { loginController, registerController } from "../controllers/auth.controller";
-import { verify } from "jsonwebtoken";
 import { verifyToken } from "../utils/jwt";
 
-const router = express();
+const router = express.Router();
 
 router.post("/register", registerController);
 

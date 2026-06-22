@@ -13,7 +13,7 @@ export type LoginUser = {
 }
 
 export type UserToken = {
-  id: string;
+  id: number;
   email: string;
   username: string;
   role: string;
@@ -36,7 +36,7 @@ export const loginUser = async (
 };
 
 export const verifyToken = async (token: string) => {
-  const response = await axios.post("/auth/verify", {}, {
+  const response = await api.post("/auth/verify", {}, {
     headers: {
       Authorization: `Bearer ${token}`
     }

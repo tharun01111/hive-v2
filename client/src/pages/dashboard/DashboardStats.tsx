@@ -39,7 +39,7 @@ const DashboardStats = () => {
       / >
       ))}
     </div>
-    </ div> 
+    </div> 
 
   )
 }

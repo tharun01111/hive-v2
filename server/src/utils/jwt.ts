@@ -36,8 +36,15 @@ export const verifyToken = async (req: Request, res: Response) => {
   }
   
   const token = authHeader?.split(" ")[1]; 
+
+  if(!token) {
+    console.log(`[TOKEN_VERIFY_FAILED]`);
+    return res.status(401).json({ success: false, message: "No token provided" });
+  }
+
+
   try{
-    const decoded = jwt.verify(token as string, process.env.JWT_SECRET_KEY as string) as JwtUserPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as JwtUserPayload;
 
     const user = await prisma.user.findUnique({
       where: {

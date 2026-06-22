@@ -11,7 +11,7 @@ const StatsCard = ({ title, value, description }: StatCardProps) => {
     >
       <h3 className='text-sm font-medium text-neutral'>{title}</h3>
       <p className='mt-4 text-5xl font-bold tracking-tight'>{value}</p>
-      <span className='mt-2 text-sm text-neutral-400'>{description}</span>
+      <p className='mt-2 text-sm text-neutral-400'>{description}</p>
     </div>
   )
 }
