@@ -1,4 +1,3 @@
-import React from 'react'
 
 const DashboardHero = ({name}: {name: string}) => {
   return (
@@ -8,8 +7,8 @@ const DashboardHero = ({name}: {name: string}) => {
       <p className='text-gray-500 mt-2'>Let's Build something today.</p>
     </div>
     <div >
-      <button className='px-4 py-2 rounded-lg'>New Workspace</button>
-      <button className='px-4 py-2 rounded-lg'>New Project</button>
+      <button className='px-4 py-2 rounded-lg border hover:bg-neutral-100 transition'>New Workspace</button>
+      <button className='px-4 py-2 rounded-lg border hover:bg-neutral-100 transition'>New Project</button>
     </div>
   </div>
   )

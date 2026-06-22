@@ -1,5 +1,5 @@
-import React from 'react'
 import StatsCard from './StatsCard';
+
 
 const DashboardStats = () => {
   const stats = [
@@ -25,7 +25,11 @@ const DashboardStats = () => {
   },
 ];
   return (
-    <div>
+  <div className='mt-10'>
+      <h2 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">
+  Overview
+</h2>
+   <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>  
       {stats.map((stat) => (
         <StatsCard 
         key={stat.title}
@@ -35,6 +39,8 @@ const DashboardStats = () => {
       / >
       ))}
     </div>
+    </div> 
+
   )
 }
 

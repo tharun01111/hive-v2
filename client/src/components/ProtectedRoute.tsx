@@ -1,3 +1,4 @@
+import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
 type ProtectedRouteProps = {
@@ -6,9 +7,10 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({children}: ProtectedRouteProps) => {
 
-  const token = localStorage.getItem("token ");
+  const {isAuthenticated, loading} = useAuth();
+  if(loading) return null;
 
-  return token ? children : <Navigate to="/login" replace />
+  return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
 export default ProtectedRoute
