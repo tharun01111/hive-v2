@@ -1,5 +1,4 @@
 import api from "@/api/axios";
-import axios from "axios";
 
 export type RegisterUser = {
   username: string,
@@ -18,8 +17,6 @@ export type UserToken = {
   username: string;
   role: string;
 };
-
-
 
 export const registerUser = async (
   user: RegisterUser
@@ -42,8 +39,4 @@ export const verifyToken = async (token: string) => {
     }
   });
   return response.data;
-}
-
-export const logout = async () => {
-
 }
