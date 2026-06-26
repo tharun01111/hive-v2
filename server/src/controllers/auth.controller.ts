@@ -1,111 +1,46 @@
-import type { Request, Response } from "express"
-import { prisma } from "../lib/prisma";
-import bcrypt from "bcryptjs";
-import { createToken } from "../utils/jwt";
+import type { NextFunction, Request, Response } from "express"
+import * as authService from "../services/auth.service";
 
-export const registerController = async(req: Request, res: Response) => {
+export const registerController = async(req: Request, res: Response, next: NextFunction) => {
 
-  const { username, email, password } = req.body;
-
+  const { email } = req.body;
   console.log(`[REGISTER_ATTEMPT] Email: ${email}`);
 
   try{
-  const matching = await prisma.user.findUnique({
-    where: {
-      email
-    }
-  });
-
-  if(matching) 
-  {
-    return res.status(409).
-    json({ 
-      message: "User already exists" 
-    }); 
-  }
-
-  const hashed = await bcrypt.hash(password, 10);
-
-  const user = await prisma.user.create({
-    data: {
-      email,
-      username,
-      password: hashed
-    }, 
-    select: {
-      id: true,
-      email: true,
-      username: true,
-      role: true,
-      createdAt: true
-    }
-  });
-
-  const token = createToken(user);
+  const result = await authService.register(req.body);
 
   console.log(`[REGISTER_SUCCESS] Email: ${email}`);
-  res.status(201).json({ success: true, user, token });
+
+  res.status(201).json({ success: true, ...result });
 
 } catch (err) {
-  const { email } = req.body;
   console.log(`[REGISTER_FAILED] Email: ${email}`);
   console.error("Error occured in register controller: ", err);
-  res.status(500).json({ error: "Internal Server Error" });
+  next(err)
 }
 
 
 }
 
-export const loginController = async(req: Request, res: Response) => {
-  const { email, password } = req.body;
+export const loginController = async(req: Request, res: Response, next: NextFunction) => {
+  const { email } = req.body;
 
   console.log(`[LOGIN_ATTEMPT] Email: ${email}`);
 
 
   try {
-
-    const user = await prisma.user.findUnique({
-      where:  {
-        email
-      }
-    });
-
-    if(!user) {
-      return res.status(401)
-      .json({
-        message: "Invalid Credentials"
-      });
-    }
-
-    const matching = await bcrypt.compare(password, user.password);
-
-    if(!matching) {
-      return res.status(401)
-      .json({
-        message: "Invalid Credentials"
-      });
-    }
-
-    const { id, username, role } = user;
-
-    const token = createToken(user);
+    const result = await authService.login(req.body);
 
     console.log(`[LOGIN_SUCCESS] Email: ${email}`);
     return res.status(200).json({
       success: true,
-      user: {
-        id,
-        email,
-        username,
-        role
-      },
-      token
+      ...result
     });
     
   } catch(err) {
-    const { email } = req.body;
+
     console.log(`[LOGIN_FAILED] Email: ${email}`);
     console.error("Error in login controller: ", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(err);
   }
 }
