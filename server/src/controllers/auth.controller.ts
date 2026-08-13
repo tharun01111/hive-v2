@@ -43,7 +43,7 @@ export const verifyController = async (req: Request, res: Response, next: NextFu
   try {
     const result = await authService.verify(authHeader);
 
-    console.log(`[VERIFY_ATTEMPT_SUCCESSFUL] ${result.user.email}`);
+    console.log(`[VERIFY_ATTEMPT_SUCCESSFUL]`);
     return res.status(200).json({
       success: true,
       ...result
