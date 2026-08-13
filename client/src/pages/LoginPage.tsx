@@ -1,33 +1,50 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
+import { useAppDispatch } from "@/app/hooks";
+import { loginEmp } from "@/features/auth/authSlice";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const { login } = useAuth();
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  const [data, setData] = useState<any>(null);
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema)
+  })
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const runLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const runLogin = async (data: LoginFormData) => {
   try {
-    setData(null);
     setLoading(true);
     setError("");
     
-    const response = await login(user.email, user.password);
-    setData(response);
-    navigate("/dashboard");
+    const result = await dispatch(loginEmp(data));
 
-  } catch (err: any) {
+    if(loginEmp.fulfilled.match(result)) {
+      navigate("/dashboard"); 
+    } else {
+      setError("Login failed");
+    }
 
-    setError(err.response?.data?.message || "Something went wrong");
+    console.log("Result: ",result);
+    console.log("completed login");
+    
+
+
+  } catch (err: unknown) {
+
+    if(err instanceof Error) {
+      setError(err.message);
+    }
+    else {
+      setError("Something went wrong");
+    }
 
   } finally {
 
@@ -50,7 +67,7 @@ const LoginPage = () => {
 
         <form 
         className="space-y-5"
-        onSubmit={runLogin}>
+        onSubmit={handleSubmit(runLogin)}>
           <div>
             <label className="block mb-2 text-sm font-medium">
               Email
@@ -59,15 +76,15 @@ const LoginPage = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              value={user.email}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  email: e.target.value,
-                })
-              }
+              {...register("email")}
               className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {
+              errors.email && 
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            }
           </div>
 
           <div>
@@ -78,15 +95,15 @@ const LoginPage = () => {
             <input
               type="password"
               placeholder="Enter your password"
-              value={user.password}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  password: e.target.value,
-                })
-              }
+              { ...register("password") }
               className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {
+              errors.password && 
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            }
           </div>
 
           <button
@@ -111,13 +128,6 @@ const LoginPage = () => {
           className="ml-1 text-blue-600 hover:underline"
           >Register</Link>
         </p>
-
-          {data && (
-          <div className="mt-4 p-4 bg-green-100 rounded">
-            <h3>Login Successful</h3>
-            <pre> { JSON.stringify(data, null, 2) }</pre>
-          </div>
-        )}
 
       </div>
     </div>

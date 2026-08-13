@@ -1,6 +1,5 @@
 import express from "express";
-import { loginController, registerController } from "../controllers/auth.controller";
-import { verifyToken } from "../utils/jwt";
+import { loginController, registerController, verifyController } from "../controllers/auth.controller";
 
 const router = express.Router();
 
@@ -8,6 +7,6 @@ router.post("/register", registerController);
 
 router.post("/login", loginController);
 
-router.post("/verify", verifyToken);
+router.post("/verify", verifyController);
 
 export default router;
