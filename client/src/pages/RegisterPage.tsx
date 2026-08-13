@@ -29,7 +29,7 @@ const RegisterPage = () => {
       if(registerEmp.fulfilled.match(result))
         navigate("/dashboard");
       else 
-        setError("Login Failed");
+        setError("Registration Failed");
       
     } catch(err: unknown) {
 
