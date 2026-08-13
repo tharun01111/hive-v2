@@ -3,17 +3,18 @@ import { createToken } from "../utils/jwt";
 import { comparePassword, hashPassword } from "../utils/auth";
 import { AppError } from "../errors/AppError";
 import type { LoginUserDTO, RegisterUserDTO } from "../types/user-auth.types";
+import { extractAuthHeader } from "../utils/auth-header";
 
-export const login = async({email, password}: LoginUserDTO) => {
-
+export const login = async ({ email, password }: LoginUserDTO) => {
   const user = await userRepository.findByEmail(email);
-  if(!user) {
+
+  if (!user) {
     throw new AppError("Invalid Credentials", 401);
   }
 
   const matching = await comparePassword(password, user.password);
 
-  if(!matching) throw new AppError("Invalid Credentials", 401);
+  if (!matching) throw new AppError("Invalid Credentials", 401);
 
   const token = createToken(user);
 
@@ -23,16 +24,15 @@ export const login = async({email, password}: LoginUserDTO) => {
       role: user.role,
       email: user.email,
       username: user.username
-    }, 
+    },
     token
   };
 };
 
-export const register = async({username, email, password}: RegisterUserDTO) => {
-
+export const register = async ({ username, email, password }: RegisterUserDTO) => {
   const existing = await userRepository.findByEmail(email);
 
-  if(existing) throw new AppError("User already exists", 409);
+  if (existing) throw new AppError("User already exists", 409);
 
   const hashed = await hashPassword(password);
 
@@ -49,5 +49,19 @@ export const register = async({username, email, password}: RegisterUserDTO) => {
       createdAt: user.createdAt
     },
     token
+  };
+};
+
+export const verify = async (receivedToken: string | undefined) => {
+  const authUser = extractAuthHeader(receivedToken);
+  const user = await userRepository.findById(authUser.id);
+
+  if (!user) {
+    console.log(`[TOKEN_VERIFY_FAILED]`);
+    throw new AppError("Invalid Token", 401);
+  }
+
+  return {
+    user
   };
 };

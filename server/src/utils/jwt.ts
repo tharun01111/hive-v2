@@ -1,13 +1,6 @@
-import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { prisma } from "../lib/prisma";
 
-type TokenUser = {
-  id: number;
-  role: string;
-};
-
-type JwtUserPayload = {
+export type TokenUser = {
   id: number;
   role: string;
 };
