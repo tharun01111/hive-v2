@@ -1,16 +1,18 @@
-import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+﻿import { useAppSelector } from "@/app/hooks";
+import { Navigate, Outlet } from "react-router-dom";
 
-type ProtectedRouteProps = {
-  children: React.ReactNode
-}
+const ProtectedRoute = () => {
+  const { isAuthenticated, loading, token } = useAppSelector((state) => state.auth);
+  console.log("Entering ProtectedRoute");
+  console.log("Auth:", isAuthenticated);
 
-const ProtectedRoute = ({children}: ProtectedRouteProps) => {
+  console.log("Token:", token);
+  if (loading) return null;
 
-  const {isAuthenticated, loading} = useAuth();
-  if(loading) return null;
+  console.log("Exiting ProtectedRoute...");
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />
-}
 
-export default ProtectedRoute
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
+export default ProtectedRoute;

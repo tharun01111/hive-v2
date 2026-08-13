@@ -1,32 +1,50 @@
 import { useState } from "react"
-import { registerUser } from "../services/authService";
-import { Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { type RegisterFormData, registerSchema } from "@/schemas/auth.schema";
+import { Link, useNavigate } from "react-router-dom";
+import { registerEmp } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/app/hooks";
 
 const RegisterPage = () => {
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
-  const [data, setData] = useState<any>(null);
+
+  const {register, handleSubmit, formState: { errors }} = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema)
+  });
+
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const runRegister = async (e: any) => {
-    e.preventDefault();
+  const runRegister = async (data: RegisterFormData) => {
     try {
       setError("");
       setLoading(true);
       
-      const response = await registerUser(user);
-      setData(response);
+      const result = await dispatch(registerEmp(data));
 
-    } catch(err: any) {
+      if(registerEmp.fulfilled.match(result))
+        navigate("/dashboard");
+      else 
+        setError("Login Failed");
+      
+    } catch(err: unknown) {
 
-      const error = err.response?.data?.message;
-      setError(error || "Something went wrong");
+      if(err instanceof Error){
+        const error = err.message;
+        setError(error);
+      } 
+      else {
+        setError( "Something went wrong");
+      }
 
     } finally {
       setLoading(false);
     }
-  
-    setUser({ username: "", email: "", password: "" });
+    
   }
    
     return (
@@ -42,7 +60,7 @@ const RegisterPage = () => {
 
         <form 
         className="space-y-5"
-        onSubmit={runRegister}
+        onSubmit={handleSubmit(runRegister)}
         >
           <div>
             <label className="block mb-2 text-sm font-medium">
@@ -51,10 +69,14 @@ const RegisterPage = () => {
             <input 
             type="text"
             placeholder="Enter your username"
-            value={user.username}
+            {...register("username")}
             className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={(e) => setUser({ ...user, username: e.target.value })}
             />
+            {errors.username && 
+            <p className="text-red-500 text-sm mt-1">
+              { errors.username.message }
+            </p>
+            }
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium">
@@ -64,15 +86,14 @@ const RegisterPage = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              value={user.email}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  email: e.target.value,
-                })
-              }
+              {...register("email")}
               className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.email && 
+            <p className="text-red-500 text-sm mt-1">
+              { errors.email.message }
+            </p>
+            }
           </div>
 
           <div>
@@ -83,15 +104,14 @@ const RegisterPage = () => {
             <input
               type="password"
               placeholder="Enter your password"
-              value={user.password}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  password: e.target.value,
-                })
-              }
+              {...register("password")}
               className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.password && 
+            <p className="text-red-500 text-sm mt-1">
+              { errors.password.message }
+            </p>
+            }
           </div>
 
           <button
@@ -115,17 +135,6 @@ const RegisterPage = () => {
           to="/login"
           >Login</Link>
         </p>
-        {data && (
-          <div className="mt-4 p-4 bg-green-100 rounded">
-            <h3>Registration Successful</h3>
-
-            <p>ID: {data.user.id}</p>
-            <p>Email: {data.user.email}</p>
-            <p>Username: {data.user.username}</p>
-            <p>Role: {data.user.role}</p>
-            <p>Token: {data.token}</p>
-          </div>
-        )}
       </div>
     </div>
   );
