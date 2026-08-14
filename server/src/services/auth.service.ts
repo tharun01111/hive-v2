@@ -4,6 +4,7 @@ import { comparePassword, hashPassword } from "../utils/auth";
 import { AppError } from "../errors/AppError";
 import type { LoginUserDTO, RegisterUserDTO } from "../types/user-auth.types";
 import { extractAuthHeader } from "../utils/auth-header";
+import { sendLoginEmail, sendRegisterEmail } from "./email.services";
 
 export const login = async ({ email, password }: LoginUserDTO) => {
   const user = await userRepository.findByEmail(email);
@@ -17,6 +18,10 @@ export const login = async ({ email, password }: LoginUserDTO) => {
   if (!matching) throw new AppError("Invalid Credentials", 401);
 
   const token = createToken(user);
+
+  void sendLoginEmail(email).catch((err) => {
+    console.error(`[LOGIN_EMAIL_FAILED] ${email}`, err);
+  })
 
   return {
     user: {
@@ -37,6 +42,10 @@ export const register = async ({ username, email, password }: RegisterUserDTO) =
   const hashed = await hashPassword(password);
 
   const user = await userRepository.createUser(username, email, hashed);
+
+  void sendRegisterEmail(email).catch((err) => {
+    console.error(`[REGISTER_EMAIL_FAILED] ${email}`, err);
+  })
 
   const token = createToken(user);
 
