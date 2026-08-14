@@ -8,7 +8,8 @@
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/jsonwebtoken": "^9.0.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^8.0.1"
   },
   "scripts": {
     "dev": "bun --watch src/index.ts",
@@ -25,6 +26,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^9.0.5",
     "pg": "^8.21.0",
     "prisma": "^7.8.0"
   }
