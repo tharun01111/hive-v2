@@ -10,6 +10,8 @@ export type SidebarProps = {
 const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
   return (
     <aside className={`
+        flex
+        flex-col
         h-screen
         shrink-0
         overflow-hidden
@@ -27,7 +29,9 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
       <SidebarHeader collapsed={collapsed} onToggle={onToggle}/>
 
       {/* Workspace Area */}
-      <WorkspaceSection collapsed={collapsed}/>
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <WorkspaceSection collapsed={collapsed} />
+      </div>
 
       {/* Profile */}
       <Profile collapsed={collapsed} />

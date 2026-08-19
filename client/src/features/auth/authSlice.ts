@@ -1,5 +1,6 @@
 import { loginUser, registerUser, verifyToken, type LoginUser, type RegisterUser } from "@/services/authService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface User {
   id: number;
@@ -39,7 +40,16 @@ export const registerEmp = createAsyncThunk("auth/register",
     return response;
 });
 
-export const initializeAuth = createAsyncThunk("auth/initializeAuth",
+export const initializeAuth = createAsyncThunk<
+  {
+    token: string;
+    user: User;
+  } | null,
+  void,
+  {
+    rejectValue: string;
+  }
+>("auth/initializeAuth",
   async(_, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
@@ -53,9 +63,12 @@ export const initializeAuth = createAsyncThunk("auth/initializeAuth",
         token,
         user: response.user
       };
-    } catch  {
-      localStorage.removeItem("token");
-      return rejectWithValue("Session expired");
+    } catch (err) {
+      if(axios.isAxiosError(err) && err.response?.status === 401){
+        localStorage.removeItem("token");
+        return rejectWithValue("Session expired");
+      }
+      throw err;
     }
   }
 )
@@ -137,7 +150,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       state.token = null;
-      state.error = action.error.message ?? "Something went wrong";
+      state.error = action.payload ?? action.error.message ?? "Something went wrong";
     })
   }
 });

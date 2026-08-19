@@ -44,7 +44,7 @@ const Profile = ({ collapsed } : SidebarProps) => {
                 font-medium
               "
             >
-              T
+              {user?.username?.[0]?.toUpperCase() ?? "?"}
             </div>
 
 

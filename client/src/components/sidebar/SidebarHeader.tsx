@@ -19,6 +19,8 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
           {/* LOGO - ALWAYS VISIBLE */}
           <button
             onClick={onToggle}
+            aria-label={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            aria-expanded={!collapsed}
             className="
               flex
               h-9
