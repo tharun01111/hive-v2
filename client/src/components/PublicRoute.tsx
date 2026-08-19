@@ -10,7 +10,7 @@ const PublicRoute = () => {
   if(loading) return null;
 
   console.log("Exiting public route...");
-  return isAuthenticated ? <Navigate to="/login" /> : <Outlet /> 
+  return isAuthenticated ?<Navigate to="/dashboard" replace /> : <Outlet />;
 }
 
 export default PublicRoute

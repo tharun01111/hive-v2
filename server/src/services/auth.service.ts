@@ -6,7 +6,7 @@ import type { LoginUserDTO, RegisterUserDTO } from "../types/user-auth.types";
 import { extractAuthHeader } from "../utils/auth-header";
 import { sendLoginEmail, sendRegisterEmail } from "./email.services";
 
-export const login = async ({ email, password }: LoginUserDTO) => {
+export const login = async ({ email, password }: LoginUserDTO) => { 
   const user = await userRepository.findByEmail(email);
 
   if (!user) {

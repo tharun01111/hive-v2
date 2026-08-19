@@ -1,5 +1,6 @@
-import { loginUser, registerUser, type LoginUser, type RegisterUser } from "@/services/authService";
+import { loginUser, registerUser, verifyToken, type LoginUser, type RegisterUser } from "@/services/authService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface User {
   id: number;
@@ -20,9 +21,9 @@ const token = localStorage.getItem("token");
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: token ? true : false,
+  isAuthenticated: false,
   loading: false,
-  token: token,
+  token,
   error: null
 };
 
@@ -37,13 +38,55 @@ export const registerEmp = createAsyncThunk("auth/register",
   async(data: RegisterUser) => {
     const response = await registerUser(data);
     return response;
-})
+});
+
+export const initializeAuth = createAsyncThunk<
+  {
+    token: string;
+    user: User;
+  } | null,
+  void,
+  {
+    rejectValue: string;
+  }
+>("auth/initializeAuth",
+  async(_, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+
+    if(!token) 
+      return null;
+
+    try{
+      const response = await verifyToken(token);
+
+      return {
+        token,
+        user: response.user
+      };
+    } catch (err) {
+      if(axios.isAxiosError(err) && err.response?.status === 401){
+        localStorage.removeItem("token");
+        return rejectWithValue("Session expired");
+      }
+      throw err;
+    }
+  }
+)
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     clearError: (state) => {
+      state.error = null;
+    },
+
+    logout: (state) => {
+      localStorage.removeItem("token");
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.loading = false;
       state.error = null;
     }
   },
@@ -66,7 +109,7 @@ const authSlice = createSlice({
     })
     .addCase(loginEmp.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message ?? "Something went wrong...";
+      state.error = (action.payload as string) ?? action.error.message ?? "Something went wrong...";
     })
 
     //register
@@ -85,9 +128,33 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.error.message ?? "Something went wrong...";
     })
+
+    //initializeAuth
+    .addCase(initializeAuth.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(initializeAuth.fulfilled, (state, action) => {
+      state.loading = false;
+      if(action.payload) {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isAuthenticated = true;
+      } else {
+        state.user = null;
+        state.token = null;
+        state.isAuthenticated = false;
+      }
+    })
+    .addCase(initializeAuth.rejected, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.error = action.payload ?? action.error.message ?? "Something went wrong";
+    })
   }
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, logout } = authSlice.actions;
 
 export default authSlice.reducer;

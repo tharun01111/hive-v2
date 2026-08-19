@@ -49,6 +49,5 @@ export const verifyToken = async (token: string) => {
     }
   });
 
-  console.log(response.data.user);
-  return response.data.user;
+  return response.data;
 }
