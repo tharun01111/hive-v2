@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [ collapsed, setCollapsed ] = useState(false);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 md:flex">
 
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)}/>
 

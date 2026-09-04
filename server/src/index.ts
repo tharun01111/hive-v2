@@ -1,6 +1,7 @@
 import express, { type Request, type Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
+import workspaceRoutes from "./routes/workspace.routes";
 import { logger } from "./middleware/logger";
 import { errorHandler } from "./middleware/error.middleware";
 
@@ -15,9 +16,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use("/auth", authRoutes);
+//Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/workspaces", workspaceRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_: Request, res: Response) => {
   res.json("The server is healthy and working properly");
 });
 
