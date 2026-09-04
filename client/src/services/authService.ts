@@ -31,19 +31,19 @@ export type VerifyResponse = {
 export const registerUser = async (
   user: RegisterUser
 ) => {
-  const response = await api.post<AuthResponse>("/auth/register", user);
+  const response = await api.post<AuthResponse>("/api/auth/register", user);
   return response.data;
 };
 
 export const loginUser = async (
   user: LoginUser
 ) => {
-  const response = await api.post<AuthResponse>("/auth/login", user);
+  const response = await api.post<AuthResponse>("/api/auth/login", user);
   return response.data;
 };
 
 export const verifyToken = async (token: string) => {
-  const response = await api.post<VerifyResponse>("/auth/verify", {}, {
+  const response = await api.post<VerifyResponse>("/api/auth/verify", {}, {
     headers: {
       Authorization: `Bearer ${token}`
     }

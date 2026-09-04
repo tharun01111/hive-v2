@@ -34,6 +34,7 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
               text-black
               transition
               hover:bg-neutral-200
+              cursor-pointer
             "
           >
             H
