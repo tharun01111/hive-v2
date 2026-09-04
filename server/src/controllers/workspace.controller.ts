@@ -5,7 +5,7 @@ import * as workspaceService from "../services/workspace.service";
 export const getUserWorkspacesController = async (req: AuthRequest, res: Response, next: NextFunction) => {
   const userId = req.user?.id
   if(!userId)
-    return res.status(401).json({ success: true, message: "Unauthorised" });
+    return res.status(401).json({ success: false, message: "Unauthorised" });
   console.log(`[GET_WORKSPACES_ATTEMPT] User id: ${userId}`);
   try{
     const result = await workspaceService.getUserWorkspaces(userId);

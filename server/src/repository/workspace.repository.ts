@@ -1,7 +1,7 @@
 import { prisma } from "../lib/prisma"
 
 export const findWorkspacesByUserId = async (id: number) => {
-  const Workspaces = await prisma.workspaceMember.findMany({ 
+  const memberships = await prisma.workspaceMember.findMany({ 
     where: {
       userId: id
     },
@@ -9,7 +9,7 @@ export const findWorkspacesByUserId = async (id: number) => {
       workspace: true
     }
   });
-  return Workspaces;
+  return memberships.map((membership) => membership.workspace);
 }
 
 export const createWorkspace = async (userId: number, name: string, description: string) => {
@@ -32,7 +32,7 @@ export const createWorkspace = async (userId: number, name: string, description:
 }
 
 export const deleteWorkspaceById = async (workspaceId: string): Promise<void> => {
-  await prisma.workspaceMember.delete({
+  await prisma.workspace.delete({
     where: {
       id: workspaceId
     },
