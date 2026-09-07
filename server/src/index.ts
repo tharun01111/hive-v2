@@ -1,7 +1,9 @@
+import "dotenv/config";
 import express, { type Request, type Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import workspaceRoutes from "./routes/workspace.routes";
+import projectRoutes from "./routes/project.routes";
 import { logger } from "./middleware/logger";
 import { errorHandler } from "./middleware/error.middleware";
 
@@ -19,6 +21,7 @@ app.use(cors({
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
+app.use("/api/workspaces/:workspaceId/projects", projectRoutes);
 
 app.get('/', (_: Request, res: Response) => {
   res.json("The server is healthy and working properly");

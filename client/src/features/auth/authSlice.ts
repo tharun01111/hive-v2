@@ -2,7 +2,7 @@ import { loginUser, registerUser, verifyToken, type LoginUser, type RegisterUser
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface User {
+export interface User {
   id: number;
   email: string;
   username: string;
