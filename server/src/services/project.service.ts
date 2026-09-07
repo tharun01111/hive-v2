@@ -30,7 +30,7 @@ export const createUserProject = async ({ userId, name, description, visibility,
 export const deleteUserProject = async (userId: number, workspaceId: string, projectId: string) => {
   await workspaceService.requireWorkspaceAccess(userId, workspaceId);
 
-  await projectRepository.deleteProject(projectId);
+  await projectRepository.deleteProject(workspaceId, projectId);
   return {
     success: true
   };

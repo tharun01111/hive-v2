@@ -8,11 +8,11 @@ export interface Project {
 }
 
 export const getProjects = async (workspaceId: string): Promise<Project[]> => {
-  const response = await api.get(`/workspaces/${workspaceId}/projects`);
+  const response = await api.get(`/api/workspaces/${workspaceId}/projects`);
   return response.data.projects;
 } 
 
 export const getProjectById = async (workspaceId: string, projectId: string): Promise<Project> => {
-  const response = await api.get(`/workspaces/${workspaceId}/projects/${projectId}`);
+  const response = await api.get(`/api/workspaces/${workspaceId}/projects/${projectId}`);
   return response.data.project;
 }

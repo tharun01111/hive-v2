@@ -18,7 +18,7 @@ export const getWorkspaces = async (): Promise<Workspace[]> => {
 
 export const getWorkspacesById = async (workspaceId: string): Promise<Workspace> => {
   try {
-    const response = await api.get(`/workspaces/${workspaceId}`);
+    const response = await api.get(`/api/workspaces/${workspaceId}`);
     return response.data.workspace;
   } catch {
     throw new Error("Could not fetch workspace");

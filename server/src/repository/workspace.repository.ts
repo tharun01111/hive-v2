@@ -73,7 +73,7 @@ export const findAccessibleWorkspace = async (userId: number, workspaceId: strin
   return workspace;
 }
 
-export const findWorkspaceById = async (workspaceId: string) => {
+export const findWorkspaceById = async (userId: number, workspaceId: string) => {
   const workspace = await prisma.workspace.findFirst({
     where: {
       id: workspaceId
@@ -83,6 +83,9 @@ export const findWorkspaceById = async (workspaceId: string) => {
       name: true,
       description: true,
       members: {
+        where: {
+          userId
+        },
         select: {
           role: true
         }

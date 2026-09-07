@@ -31,6 +31,9 @@ export const getProjectsById = async (userId: number, workspaceId: string) => {
       name: true,
       description: true,
       members: {
+        where: {
+          userId
+        },
         select: {
           role: true
         }
@@ -83,10 +86,11 @@ export const createProject = async ({ userId, name, description, visibility, wor
   });
 }
 
-export const deleteProject = async (projectId: string) => {
+export const deleteProject = async (workspaceId: string, projectId: string) => {
   await prisma.project.delete({
     where: {
       id: projectId,
+      workspaceId
     }
   })
 }

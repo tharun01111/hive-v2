@@ -42,7 +42,7 @@ export const requireWorkspaceAccess = async (userId: number, workspaceId: string
 export const getWorkspaceById = async ({ userId, workspaceId }: { userId: number; workspaceId: string }) => {
   await requireWorkspaceAccess(userId, workspaceId);
 
-  const result = await workspaceRepository.findWorkspaceById(workspaceId);
+  const result = await workspaceRepository.findWorkspaceById(userId, workspaceId);
 
   if(!result)
     throw new AppError("Workspace not found", 404);
