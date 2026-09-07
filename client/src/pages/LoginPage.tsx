@@ -34,8 +34,6 @@ const LoginPage = () => {
 
     console.log("Result: ",result);
     console.log("completed login");
-    
-
 
   } catch (err: unknown) {
 

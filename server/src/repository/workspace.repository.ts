@@ -6,13 +6,18 @@ export const findWorkspacesByUserId = async (id: number) => {
       userId: id
     },
     select: {
-      workspace: true
-    }
+      workspace: true,
+      role: true,
+    },
+    
   });
-  return memberships.map((membership) => membership.workspace);
+  return memberships.map((membership) => ({
+    ...membership.workspace,
+    role: membership.role
+  }));
 }
 
-export const createWorkspace = async (userId: number, name: string, description: string) => {
+export const createWorkspace = async (userId: number, name: string, description?: string) => {
   return prisma.$transaction(async (tx) => {
     const workspace = await tx.workspace.create({
       data: {
@@ -51,4 +56,38 @@ export const findMember = async (id: number, workspaceId: string) => {
       role: true
     },
   });
+}
+
+export const findAccessibleWorkspace = async (userId: number, workspaceId: string) => {
+  const workspace = await prisma.workspace.findFirst({
+    where: {
+      id: workspaceId,
+        members: {
+          some: {
+            userId,
+          }
+        }
+    }
+  });
+
+  return workspace;
+}
+
+export const findWorkspaceById = async (workspaceId: string) => {
+  const workspace = await prisma.workspace.findFirst({
+    where: {
+      id: workspaceId
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      members: {
+        select: {
+          role: true
+        }
+      }
+    }
+  });
+  return workspace;
 }
