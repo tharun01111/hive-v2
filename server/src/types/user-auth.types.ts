@@ -1,11 +1,10 @@
 export type LoginUserDTO = {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 };
 
 export type RegisterUserDTO = {
-  username: string,
-  email: string,
-  password: string
+  username: string;
+  email: string;
+  password: string;
 };
-

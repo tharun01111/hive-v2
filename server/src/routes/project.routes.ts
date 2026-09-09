@@ -1,9 +1,14 @@
 import express from "express";
 import { protect } from "../middleware/auth.middleware";
-import { createProjectController, deleteProjectController, getProjectByIdController, getUserProjectsController } from "../controllers/project.controller";
+import {
+  createProjectController,
+  deleteProjectController,
+  getProjectByIdController,
+  getUserProjectsController,
+} from "../controllers/project.controller";
 
 const router = express.Router({
-  mergeParams: true
+  mergeParams: true,
 });
 
 //Get every project

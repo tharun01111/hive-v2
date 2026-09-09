@@ -8,48 +8,74 @@ export type CreateProjectInput = {
   workspaceId: string;
   name: string;
   description?: string;
-  visibility?: ProjectVisibility
+  visibility?: ProjectVisibility;
 };
 
 export const getUserProjects = async (userId: number, workspaceId: string) => {
   const result = await projectRepository.getProjectsById(userId, workspaceId);
   return result;
-}
+};
 
-export const createUserProject = async ({ userId, name, description, visibility, workspaceId }: CreateProjectInput) => {
+export const createUserProject = async ({
+  userId,
+  name,
+  description,
+  visibility,
+  workspaceId,
+}: CreateProjectInput) => {
   await workspaceService.requireWorkspaceAccess(userId, workspaceId);
 
-  const result = await projectRepository.createProject({ userId, name, description, visibility, workspaceId });
+  const result = await projectRepository.createProject({
+    userId,
+    name,
+    description,
+    visibility,
+    workspaceId,
+  });
 
-  if(!result)
-    throw new AppError("Project creation failed", 423);
+  if (!result) throw new AppError("Project creation failed", 423);
 
   return result;
-}
+};
 
-export const deleteUserProject = async (userId: number, workspaceId: string, projectId: string) => {
+export const deleteUserProject = async (
+  userId: number,
+  workspaceId: string,
+  projectId: string,
+) => {
   await workspaceService.requireWorkspaceAccess(userId, workspaceId);
 
   await projectRepository.deleteProject(workspaceId, projectId);
   return {
-    success: true
+    success: true,
   };
-}
+};
 
-export const getUserProjectById = async (userId: number, workspaceId: string, projectId: string) => {
+export const getUserProjectById = async (
+  userId: number,
+  workspaceId: string,
+  projectId: string,
+) => {
   await workspaceService.requireWorkspaceAccess(userId, workspaceId);
 
-  await requireProjectAccess(userId, workspaceId,  projectId);
+  await requireProjectAccess(userId, workspaceId, projectId);
 
   const result = await projectRepository.findProjectById(projectId);
   return result;
-}
+};
 
-export const requireProjectAccess = async (userId: number, workspaceId: string, projectId: string) => {
-  const result = await projectRepository.findAccessibleProject(userId, workspaceId, projectId);
+export const requireProjectAccess = async (
+  userId: number,
+  workspaceId: string,
+  projectId: string,
+) => {
+  const result = await projectRepository.findAccessibleProject(
+    userId,
+    workspaceId,
+    projectId,
+  );
 
-  if(!result)
-    throw new AppError("Unauthorised access", 403);
+  if (!result) throw new AppError("Unauthorised access", 403);
 
   return true;
-}
+};

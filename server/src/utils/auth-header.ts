@@ -7,7 +7,9 @@ export type AuthTokenPayload = {
   role: string;
 };
 
-export const extractAuthHeader = (authHeader: string | undefined): AuthTokenPayload => {
+export const extractAuthHeader = (
+  authHeader: string | undefined,
+): AuthTokenPayload => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.log(`[TOKEN_VERIFY_FAILED]`);
     throw new AppError("No token provided", 401);
@@ -29,13 +31,17 @@ export const extractAuthHeader = (authHeader: string | undefined): AuthTokenPayl
     throw new AppError("Invalid Token", 401);
   }
 
-  if (typeof decoded === "string" || typeof decoded.id !== "number" || typeof decoded.role !== "string") {
+  if (
+    typeof decoded === "string" ||
+    typeof decoded.id !== "number" ||
+    typeof decoded.role !== "string"
+  ) {
     console.log(`[TOKEN_VERIFY_FAILED]`);
     throw new AppError("Invalid Token", 401);
   }
 
   return {
     id: decoded.id,
-    role: decoded.role
+    role: decoded.role,
   };
 };

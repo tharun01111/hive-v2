@@ -1,6 +1,4 @@
-
 export class AppError extends Error {
-  
   statusCode: number;
   isOperational: boolean;
 
@@ -9,5 +7,4 @@ export class AppError extends Error {
     this.statusCode = statusCode;
     this.isOperational = true;
   }
-  
 }

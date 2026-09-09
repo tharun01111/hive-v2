@@ -1,82 +1,93 @@
-import { prisma } from "../lib/prisma"
+import { prisma } from "../lib/prisma";
 
 export const findWorkspacesByUserId = async (id: number) => {
-  const memberships = await prisma.workspaceMember.findMany({ 
+  const memberships = await prisma.workspaceMember.findMany({
     where: {
-      userId: id
+      userId: id,
     },
     select: {
       workspace: true,
       role: true,
     },
-    
   });
   return memberships.map((membership) => ({
     ...membership.workspace,
-    role: membership.role
+    role: membership.role,
   }));
-}
+};
 
-export const createWorkspace = async (userId: number, name: string, description?: string) => {
+export const createWorkspace = async (
+  userId: number,
+  name: string,
+  description?: string,
+) => {
   return prisma.$transaction(async (tx) => {
     const workspace = await tx.workspace.create({
       data: {
         name,
-        description
-      }
+        description,
+      },
     });
     await tx.workspaceMember.create({
       data: {
         userId,
         workspaceId: workspace.id,
-        role: "OWNER"
-      }
-    }); 
+        role: "OWNER",
+      },
+    });
     return workspace;
-  })
-}
+  });
+};
 
-export const deleteWorkspaceById = async (workspaceId: string): Promise<void> => {
+export const deleteWorkspaceById = async (
+  workspaceId: string,
+): Promise<void> => {
   await prisma.workspace.delete({
     where: {
-      id: workspaceId
+      id: workspaceId,
     },
   });
-}
+};
 
 export const findMember = async (id: number, workspaceId: string) => {
   return await prisma.workspaceMember.findUnique({
     where: {
-       userId_workspaceId: {
+      userId_workspaceId: {
         userId: id,
         workspaceId: workspaceId,
       },
     },
     select: {
-      role: true
+      role: true,
     },
   });
-}
+};
 
-export const findAccessibleWorkspace = async (userId: number, workspaceId: string) => {
+export const findAccessibleWorkspace = async (
+  userId: number,
+  workspaceId: string,
+) => {
   const workspace = await prisma.workspace.findFirst({
     where: {
       id: workspaceId,
-        members: {
-          some: {
-            userId,
-          }
-        }
-    }
+      members: {
+        some: {
+          userId,
+        },
+      },
+    },
   });
 
   return workspace;
-}
+};
 
-export const findWorkspaceById = async (userId: number, workspaceId: string) => {
+export const findWorkspaceById = async (
+  userId: number,
+  workspaceId: string,
+) => {
   const workspace = await prisma.workspace.findFirst({
     where: {
-      id: workspaceId
+      id: workspaceId,
     },
     select: {
       id: true,
@@ -84,13 +95,13 @@ export const findWorkspaceById = async (userId: number, workspaceId: string) => 
       description: true,
       members: {
         where: {
-          userId
+          userId,
         },
         select: {
-          role: true
-        }
-      }
-    }
+          role: true,
+        },
+      },
+    },
   });
   return workspace;
-}
+};

@@ -3,13 +3,14 @@ import SidebarHeader from "./SidebarHeader";
 import WorkspaceSection from "./workspaceItems/WorkspaceSection";
 
 export type SidebarProps = {
-  collapsed: boolean; 
+  collapsed: boolean;
   onToggle?: () => void;
-}
+};
 
 const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
   return (
-    <aside className={`
+    <aside
+      className={`
         flex
         flex-col
         h-screen
@@ -23,10 +24,10 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
         duration-300
         ease-in-out
         ${collapsed ? "w-[68px]" : "w-[300px]"}
-      `}>
-
+      `}
+    >
       {/* Header */}
-      <SidebarHeader collapsed={collapsed} onToggle={onToggle}/>
+      <SidebarHeader collapsed={collapsed} onToggle={onToggle} />
 
       {/* Workspace Area */}
       <div className="flex-1 min-h-0 overflow-y-auto">
@@ -35,7 +36,6 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
 
       {/* Profile */}
       <Profile collapsed={collapsed} />
-
     </aside>
   );
 };

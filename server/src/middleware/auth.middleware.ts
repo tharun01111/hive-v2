@@ -8,13 +8,17 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const protect = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const protect = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const authUser = extractAuthHeader(req.headers.authorization);
 
     req.user = {
       id: authUser.id,
-      role: authUser.role
+      role: authUser.role,
     };
 
     next();

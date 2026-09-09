@@ -1,9 +1,9 @@
-import type { SidebarProps } from "./Sidebar"
+import type { SidebarProps } from "./Sidebar";
 
 const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
   return (
     <div
-          className={`
+      className={`
             flex
             h-16
             shrink-0
@@ -14,14 +14,13 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
             duration-300
             ${collapsed ? "justify-center px-0" : "gap-3 px-5"}
           `}
-        >
-
-          {/* LOGO - ALWAYS VISIBLE */}
-          <button
-            onClick={onToggle}
-            aria-label={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            aria-expanded={!collapsed}
-            className="
+    >
+      {/* LOGO - ALWAYS VISIBLE */}
+      <button
+        onClick={onToggle}
+        aria-label={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        aria-expanded={!collapsed}
+        className="
               flex
               h-9
               w-9
@@ -36,14 +35,13 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
               hover:bg-neutral-200
               cursor-pointer
             "
-          >
-            H
-          </button>
+      >
+        H
+      </button>
 
-
-          {/* APP NAME - ONLY EXPANDED */}
-          <span
-            className={`
+      {/* APP NAME - ONLY EXPANDED */}
+      <span
+        className={`
               whitespace-nowrap
               font-semibold
               transition-all
@@ -54,12 +52,11 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
                   : "w-auto opacity-100"
               }
             `}
-          >
-            Hive
-          </span>
+      >
+        Hive
+      </span>
+    </div>
+  );
+};
 
-        </div>
-  )
-}
-
-export default SidebarHeader
+export default SidebarHeader;

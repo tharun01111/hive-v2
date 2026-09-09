@@ -13,17 +13,19 @@ const app = express();
 app.use(logger);
 app.use(express.json());
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/workspaces/:workspaceId/projects", projectRoutes);
 
-app.get('/', (_: Request, res: Response) => {
+app.get("/", (_: Request, res: Response) => {
   res.json("The server is healthy and working properly");
 });
 
@@ -31,4 +33,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-})
+});

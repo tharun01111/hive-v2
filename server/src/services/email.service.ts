@@ -9,13 +9,13 @@ const transport = nodemailer.createTransport({
 });
 
 export const sendLoginEmail = async (email: string): Promise<void> => {
-    console.log(`[LOGIN_EMAIL_ATTEMPT] ${email}`);
-    
-    await transport.sendMail({
-      from: process.env.USER_EMAIL,
-      to: email,
-      subject: "Successful Login",
-      html: `
+  console.log(`[LOGIN_EMAIL_ATTEMPT] ${email}`);
+
+  await transport.sendMail({
+    from: process.env.USER_EMAIL,
+    to: email,
+    subject: "Successful Login",
+    html: `
       <div style="
         font-family: Arial, sans-serif;
         background-color: #f4f6f8;
@@ -117,9 +117,9 @@ export const sendLoginEmail = async (email: string): Promise<void> => {
         </div>
       </div>
     `,
-    });
+  });
 
-    console.log(`[LOGIN_EMAIL_SUCCESSFUL] ${email}`);
+  console.log(`[LOGIN_EMAIL_SUCCESSFUL] ${email}`);
 };
 
 export const sendRegisterEmail = async (email: string): Promise<void> => {
@@ -213,8 +213,8 @@ export const sendRegisterEmail = async (email: string): Promise<void> => {
 
     </div>
   </div>
-`
+`,
   });
-  
+
   console.log(`[REGISTER_EMAIL_SUCCESSFUL] ${email}`);
-}
+};

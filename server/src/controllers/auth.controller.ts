@@ -1,7 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 import * as authService from "../services/auth.service";
 
-export const registerController = async (req: Request, res: Response, next: NextFunction) => {
+export const registerController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { email } = req.body;
   console.log(`[REGISTER_ATTEMPT] Email: ${email}`);
 
@@ -17,7 +21,11 @@ export const registerController = async (req: Request, res: Response, next: Next
   }
 };
 
-export const loginController = async (req: Request, res: Response, next: NextFunction) => {
+export const loginController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { email } = req.body;
   console.log(`[LOGIN_ATTEMPT] Email: ${email}`);
 
@@ -27,7 +35,7 @@ export const loginController = async (req: Request, res: Response, next: NextFun
     console.log(`[LOGIN_SUCCESS] Email: ${email}`);
     return res.status(200).json({
       success: true,
-      ...result
+      ...result,
     });
   } catch (err) {
     console.log(`[LOGIN_FAILED] Email: ${email}`);
@@ -36,7 +44,11 @@ export const loginController = async (req: Request, res: Response, next: NextFun
   }
 };
 
-export const verifyController = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const authHeader = req.headers.authorization;
   console.log(`[VERIFY_ATTEMPT]`);
 
@@ -46,7 +58,7 @@ export const verifyController = async (req: Request, res: Response, next: NextFu
     console.log(`[VERIFY_ATTEMPT_SUCCESSFUL]`);
     return res.status(200).json({
       success: true,
-      ...result
+      ...result,
     });
   } catch (err) {
     console.log(`[TOKEN_VERIFY_FAILED]`);

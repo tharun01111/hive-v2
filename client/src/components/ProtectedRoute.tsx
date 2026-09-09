@@ -2,7 +2,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const { isAuthenticated, loading, token } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, loading, token } = useAppSelector(
+    (state) => state.auth,
+  );
   console.log("Entering ProtectedRoute");
   console.log("Auth:", isAuthenticated);
 
@@ -10,7 +12,6 @@ const ProtectedRoute = () => {
   if (loading) return null;
 
   console.log("Exiting ProtectedRoute...");
-
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };

@@ -1,12 +1,11 @@
-import { Route, Routes } from "react-router-dom"
-import LoginPage from "./pages/LoginPage"
-import RegisterPage from "./pages/RegisterPage"
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 
 function App() {
-
   return (
     <div>
       <Routes>
@@ -20,8 +19,7 @@ function App() {
         </Route>
       </Routes>
     </div>
-
-  )
+  );
 }
 
-export default App
+export default App;

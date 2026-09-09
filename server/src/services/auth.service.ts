@@ -6,7 +6,7 @@ import type { LoginUserDTO, RegisterUserDTO } from "../types/user-auth.types";
 import { extractAuthHeader } from "../utils/auth-header";
 import { sendLoginEmail, sendRegisterEmail } from "./email.service";
 
-export const login = async ({ email, password }: LoginUserDTO) => { 
+export const login = async ({ email, password }: LoginUserDTO) => {
   const user = await userRepository.findByEmail(email);
 
   if (!user) {
@@ -21,20 +21,24 @@ export const login = async ({ email, password }: LoginUserDTO) => {
 
   void sendLoginEmail(email).catch((err) => {
     console.error(`[LOGIN_EMAIL_FAILED] ${email}`, err);
-  })
+  });
 
   return {
     user: {
       id: user.id,
       role: user.role,
       email: user.email,
-      username: user.username
+      username: user.username,
     },
-    token
+    token,
   };
 };
 
-export const register = async ({ username, email, password }: RegisterUserDTO) => {
+export const register = async ({
+  username,
+  email,
+  password,
+}: RegisterUserDTO) => {
   const existing = await userRepository.findByEmail(email);
 
   if (existing) throw new AppError("User already exists", 409);
@@ -45,7 +49,7 @@ export const register = async ({ username, email, password }: RegisterUserDTO) =
 
   void sendRegisterEmail(email).catch((err) => {
     console.error(`[REGISTER_EMAIL_FAILED] ${email}`, err);
-  })
+  });
 
   const token = createToken(user);
 
@@ -55,9 +59,9 @@ export const register = async ({ username, email, password }: RegisterUserDTO) =
       username: user.username,
       role: user.role,
       email: user.email,
-      createdAt: user.createdAt
+      createdAt: user.createdAt,
     },
-    token
+    token,
   };
 };
 
@@ -71,6 +75,6 @@ export const verify = async (receivedToken: string | undefined) => {
   }
 
   return {
-    user
+    user,
   };
 };
