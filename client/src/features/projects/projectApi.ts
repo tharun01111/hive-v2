@@ -63,7 +63,7 @@ export const projectApiSlice = createApi({
       }
     >({
       query: ({ workspaceId, name, description }) => ({
-        url: `workpaces/${workspaceId}/projects`,
+        url: `/workpaces/${workspaceId}/projects`,
         method: "POST",
         body: {
           name,

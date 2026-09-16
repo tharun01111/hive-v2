@@ -17,21 +17,26 @@ const WorkspaceItem = ({
 }: WorkspaceItemProps) => {
   if (collapsed) {
     return (
-      <button
-        onClick={onToggle}
-        title={workspace.name}
-        className="
-          flex h-10 w-10
-          items-center justify-center
-          rounded-lg
-          text-sm font-semibold
-          text-white
-          transition
-          hover:bg-neutral-800
-        "
-      >
-        {workspace.name[0].toUpperCase()}
-      </button>
+      <div>
+        <button
+          type="button"
+          onClick={onToggle}
+          title={workspace.name}
+          className="
+            flex h-10 w-10
+            items-center justify-center
+            rounded-lg
+            text-sm font-semibold
+            text-white
+            transition
+            hover:bg-neutral-800
+          "
+        >
+          {workspace.name[0].toUpperCase()}
+        </button>
+
+        {isExpanded && <ProjectList workspaceId={workspace.id} />}
+      </div>
     );
   }
 
@@ -46,8 +51,11 @@ const WorkspaceItem = ({
         `}
       >
         <button
+          type="button"
           className="mr-2 text-neutral-400 hover:text-white"
           onClick={onToggle}
+          aria-label={`${isExpanded ? "Collapse" : "Expand"} ${workspace.name} projects`}
+          aria-expanded={isExpanded}
         >
           {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         </button>

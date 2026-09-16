@@ -58,7 +58,7 @@ export const workspaceApiSlice = createApi({
       }
     >({
       query: ({ name, description }) => ({
-        url: import.meta.env.VITE_APP_API_URL,
+        url: "/workspaces",
         method: "POST",
         body: {
           name,

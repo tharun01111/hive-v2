@@ -1,7 +1,7 @@
 import { useGetWorkspacesQuery } from "@/features/workspace/workspaceApi";
 
 const YourWorkpsaces = () => {
-  const { data: workpsaces, isLoading, isError } = useGetWorkspacesQuery();
+  const { data: workspaces, isLoading, isError } = useGetWorkspacesQuery();
 
   if (isError) return <p>Error fetching workspaces...</p>;
 
@@ -9,8 +9,17 @@ const YourWorkpsaces = () => {
     <div className="space-y-2">
       {isLoading ? (
         <p className="px-2 py-3 text-sm text-neutral-500">Loading...</p>
+      ) : workspaces?.length === 0 ? (
+        <div className="rounded-xl border border-neutral-200 bg-white px-4 py-8 text-center">
+          <p className="text-sm font-medium text-neutral-900">
+            No workspaces yet
+          </p>
+          <p className="mt-1 text-xs text-neutral-500">
+            Create a workspace to get started.
+          </p>
+        </div>
       ) : (
-        workpsaces?.map((workspace) => (
+        workspaces?.map((workspace) => (
           <div
             key={workspace.id}
             className="
