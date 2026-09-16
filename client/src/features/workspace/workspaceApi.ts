@@ -1,4 +1,5 @@
-import api from "@/api/axios";
+import type { RootState } from "@/app/store";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Workspace {
   id: string;
@@ -7,28 +8,68 @@ export interface Workspace {
   role: "OWNER" | "ADMIN" | "MEMBER" | null;
 }
 
-export const getWorkspaces = async (): Promise<Workspace[]> => {
-  try {
-    const response = await api.get("/api/workspaces");
-    return response.data.workspaces;
-  } catch {
-    throw new Error("Could not fetch workspaces...");
-  }
-};
+interface WorkspaceResponse {
+  success: boolean;
+  workspaces: Workspace[];
+}
 
-export const getWorkspacesById = async (
-  workspaceId: string,
-): Promise<Workspace> => {
-  try {
-    const response = await api.get(`/api/workspaces/${workspaceId}`);
-    return response.data.workspace;
-  } catch {
-    throw new Error("Could not fetch workspace");
-  }
-};
+export const workspaceApiSlice = createApi({
+  reducerPath: "workspaceApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_APP_API_URL,
 
-export const normalizeApiError = (error: unknown) => {
-  if (error instanceof Error) return error.message;
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
 
-  return "Unknown error";
-};
+      if (token) headers.set("Authorization", `Bearer ${token}`);
+
+      return headers;
+    },
+  }),
+
+  tagTypes: ["Workspaces"],
+
+  endpoints: (builder) => ({
+    //Get all workspaces
+    getWorkspaces: builder.query<Workspace[], void>({
+      query: () => "/workspaces",
+      transformResponse: (response: WorkspaceResponse) => response.workspaces,
+      providesTags: ["Workspaces"],
+    }),
+
+    //Get workspace by id
+    getWorkspaceById: builder.query<Workspace, string>({
+      query: (workspaceId) => `workspaces/${workspaceId}`,
+      transformResponse: (response: {
+        success: boolean;
+        workspace: Workspace;
+      }) => response.workspace,
+      providesTags: (_result, _error, workspaceId) => [
+        { type: "Workspaces", id: workspaceId },
+      ],
+    }),
+
+    //create workspace
+    createWorkspace: builder.mutation<
+      Workspace,
+      {
+        name: string;
+        description?: string;
+      }
+    >({
+      query: ({ name, description }) => ({
+        url: import.meta.env.VITE_APP_API_URL,
+        method: "POST",
+        body: {
+          name,
+          description,
+        },
+      }),
+
+      invalidatesTags: ["Workspaces"],
+    }),
+  }),
+});
+
+export const { useGetWorkspacesQuery, useGetWorkspaceByIdQuery, useCreateWorkspaceMutation } =
+  workspaceApiSlice;
