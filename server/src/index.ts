@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import workspaceRoutes from "./routes/workspace.routes";
 import projectRoutes from "./routes/project.routes";
+import dashboardRoutes from "./routes/dashboard.routes";
 import { logger } from "./middleware/logger";
 import { errorHandler } from "./middleware/error.middleware";
 
@@ -24,6 +25,9 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/workspaces/:workspaceId/projects", projectRoutes);
+
+//dashboard stats retrieval
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (_: Request, res: Response) => {
   res.json("The server is healthy and working properly");

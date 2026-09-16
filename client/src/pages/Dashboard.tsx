@@ -1,9 +1,10 @@
-import DashboardHero from "@/pages/dashboard/DashboardHero";
-import DashboardStats from "@/pages/dashboard/DashboardStats";
-import RecentActivity from "./RecentActivity";
+import DashboardHero from "@/components/dashboard/DashboardHero";
+import DashboardStats from "@/components/dashboard/DashboardStats";
+import RecentActivity from "../components/dashboard/RecentActivity";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useAppSelector } from "@/app/hooks";
 import { useState } from "react";
+import YourWorkspaces from "@/components/dashboard/YourWorkpsaces";
 
 const Dashboard = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -23,7 +24,10 @@ const Dashboard = () => {
 
           <DashboardStats />
 
-          <RecentActivity />
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.7fr_1fr]">
+            <YourWorkspaces />
+            <RecentActivity />
+          </div>
         </div>
       </main>
     </div>
