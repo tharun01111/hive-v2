@@ -1,15 +1,18 @@
 import StatsCard from "./StatsCard";
+import { useGetDashboardStatsQuery } from "@/features/dashboard/dashboardApi";
 
 const DashboardStats = () => {
+  const { data, isLoading, isError } = useGetDashboardStatsQuery();
+
   const stats = [
     {
       title: "Workspaces",
-      value: 3,
+      value: data?.workspaceCount ?? 0,
       description: "Active workspaces",
     },
     {
       title: "Projects",
-      value: 8,
+      value: data?.projectCount ?? 0,
       description: "Across all workspaces",
     },
     {
@@ -19,10 +22,18 @@ const DashboardStats = () => {
     },
     {
       title: "Members",
-      value: 15,
+      value: data?.memberCount ?? 0,
       description: "Collaborators",
     },
   ];
+
+   if (isLoading) {
+    return <p>Loading dashboard stats...</p>;
+  }
+
+  if(isError) 
+    return <p>Error in fetching workspaces...</p>
+
   return (
     <div className="mt-10">
       <h2 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">
