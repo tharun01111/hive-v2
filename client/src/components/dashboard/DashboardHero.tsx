@@ -1,4 +1,5 @@
 import Logout from "@/components/Logout";
+import CreateWorkspace from "../sidebar/workspaceItems/CreateWorkspace";
 
 const DashboardHero = ({ name }: { name: string }) => {
   return (
@@ -8,10 +9,31 @@ const DashboardHero = ({ name }: { name: string }) => {
         <p className="text-gray-500 mt-2">Let's Build something today.</p>
       </div>
       <div className="flex flex-col gap-2 sm:flex-row">
-        <button className="px-4 py-2 rounded-lg border hover:bg-neutral-100 transition">
-          New Workspace
-        </button>
-        <button className="px-4 py-2 rounded-lg border hover:bg-neutral-100 transition">
+        <CreateWorkspace
+          variant="button"
+          className="
+            inline-flex items-center justify-center
+            rounded-lg
+            border border-neutral-300
+            bg-white
+            px-3 py-1.5
+            text-sm font-medium text-black
+            transition-colors duration-200
+            hover:bg-neutral-100
+            active:bg-neutral-200
+          "
+        />
+        <button
+          className="inline-flex items-center justify-center
+            rounded-lg
+            border border-neutral-300
+            bg-white
+            px-3 py-1.5
+            text-sm font-medium text-black
+            transition-colors duration-200
+            hover:bg-neutral-100
+            active:bg-neutral-200"
+        >
           New Project
         </button>
         <Logout />
