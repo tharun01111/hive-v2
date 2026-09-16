@@ -17,6 +17,7 @@ type DialogBoxProps = {
   onOpenChange: (open: boolean) => void;
 };
 
+/** Renders a controlled workspace-creation dialog with name and description fields. */
 export function WorkspaceDialogBox({ open, onOpenChange }: DialogBoxProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

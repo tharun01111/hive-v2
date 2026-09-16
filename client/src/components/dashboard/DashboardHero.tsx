@@ -1,6 +1,7 @@
 import Logout from "@/components/Logout";
 import CreateWorkspace from "../sidebar/workspaceItems/CreateWorkspace";
 
+/** Displays a personalized dashboard greeting and workspace, project, and logout actions. */
 const DashboardHero = ({ name }: { name: string }) => {
   return (
     <div className="flex items-center justify-between rounded-2xl border p-6">

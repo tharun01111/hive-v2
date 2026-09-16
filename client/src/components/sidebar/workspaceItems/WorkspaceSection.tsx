@@ -2,6 +2,7 @@ import type { SidebarProps } from "../Sidebar";
 import WorkspaceList from "./WorkspaceList";
 import CreateWorkspace from "./CreateWorkspace";
 
+/** Displays the workspace list and, when expanded, workspace-creation controls. */
 const WorkspaceSection = ({ collapsed }: SidebarProps) => {
   return (
     <section className={collapsed ? "py-4" : "px-3 py-5"}>

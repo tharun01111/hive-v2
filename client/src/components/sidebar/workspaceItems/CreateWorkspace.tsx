@@ -7,6 +7,7 @@ interface CreateWorkspaceProps {
   className?: string;
 }
 
+/** Renders a variant-specific trigger and manages the workspace dialog's visibility. */
 const CreateWorkspace = ({ variant = "full", className }: CreateWorkspaceProps) => {
   const [isCreateWorkspaceOpen, setIsCreateWorkspaceOpen] = useState(false);
 
