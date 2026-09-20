@@ -1,5 +1,6 @@
 import type { RootState } from "@/app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { dashboardApiSlice } from "../dashboard/dashboardApi";
 
 export interface Workspace {
   id: string;
@@ -67,9 +68,42 @@ export const workspaceApiSlice = createApi({
       }),
 
       invalidatesTags: ["Workspaces"],
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          dispatch(dashboardApiSlice.util.invalidateTags(["Stats"]));
+        } catch (error) {
+          console.error("Error occured: ", error);
+        }
+      },
+    }),
+
+    deleteWorkspace: builder.mutation<void, string>({
+      query: (workspaceId: string) => ({
+        url: `workspaces/${workspaceId}`,
+        method: "DELETE",
+      }),
+
+      invalidatesTags: ["Workspaces"],
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          dispatch(dashboardApiSlice.util.invalidateTags(["Stats"]));
+        } catch (error) {
+          console.error("Error occured: ", error);
+        }
+      },
     }),
   }),
 });
 
-export const { useGetWorkspacesQuery, useGetWorkspaceByIdQuery, useCreateWorkspaceMutation } =
-  workspaceApiSlice;
+export const {
+  useGetWorkspacesQuery,
+  useGetWorkspaceByIdQuery,
+  useCreateWorkspaceMutation,
+  useDeleteWorkspaceMutation,
+} = workspaceApiSlice;

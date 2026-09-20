@@ -11,7 +11,10 @@ export const logger = async (
     `\n[Request]
       Method: ${req.method}
       Route: ${req.originalUrl}
-      Time: ${new Date().toISOString()} \n`,
+      Time: ${new Date().toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "medium",
+      })} \n`,
   );
 
   res.on("finish", () => {

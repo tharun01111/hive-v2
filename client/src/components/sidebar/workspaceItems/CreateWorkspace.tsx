@@ -1,4 +1,4 @@
-import WorkspaceDialogBox from "@/components/modals/WorkspaceDialogBox";
+import CreateWorkspaceDialogBox from "@/components/modals/CreateWorkspaceDialogBox";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -29,7 +29,7 @@ const CreateWorkspace = ({ variant = "full", className }: CreateWorkspaceProps) 
         {variant === "button" && "New Workspace"}
       </button>
 
-      <WorkspaceDialogBox
+      <CreateWorkspaceDialogBox
         open={isCreateWorkspaceOpen}
         onOpenChange={setIsCreateWorkspaceOpen}
       />
