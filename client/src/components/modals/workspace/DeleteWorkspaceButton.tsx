@@ -35,6 +35,7 @@ export function DeleteWorkspaceButton({ workspaceId }: DelteWorkspaceProps) {
           <DialogClose render={<Button type="button">Close</Button>} />
           <Button
             variant="destructive"
+            disabled={isLoading}
             onClick={() => deleteWorkspace(workspaceId)}
           >
             {isLoading ? "Deleting..." : "Delete Workspace"}
