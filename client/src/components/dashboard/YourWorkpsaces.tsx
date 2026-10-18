@@ -1,5 +1,5 @@
 import { useGetWorkspacesQuery } from "@/features/workspace/workspaceApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Workspace avatar tint palette – cycles by index (mirrors sidebar)
 const WS_TINTS = [
@@ -68,31 +68,34 @@ const YourWorkpsaces = () => {
           displayedWorkspaces?.map((workspace, index) => {
             const tint = WS_TINTS[index % WS_TINTS.length];
             return (
-              <div
+              <Link
                 key={workspace.id}
+                to={`/workspace/${workspace.id}`}
                 className="
-                  flex cursor-pointer items-center justify-between
-                  rounded-xl
-                  border border-border
-                  bg-card
-                  px-4 py-3
-                  shadow-[0_1px_2px_rgba(28,25,23,0.04)]
-                  transition-all duration-200
-                  hover:-translate-y-1
-                  hover:border-border
-                  hover:bg-muted
-                  hover:shadow-md
-                "
-                onClick={() => navigate(`/workspace/${workspace.id}`)}
+    flex items-center justify-between
+    rounded-xl
+    border border-border
+    bg-card
+    px-4 py-3
+    shadow-[0_1px_2px_rgba(28,25,23,0.04)]
+    transition-all duration-200
+    hover:-translate-y-1
+    hover:bg-muted
+    hover:shadow-md
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-primary
+    focus-visible:ring-offset-2
+  "
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <div
                     className="
-                      flex h-9 w-9 shrink-0
-                      items-center justify-center
-                      rounded-lg
-                      text-sm font-semibold
-                    "
+        flex h-9 w-9 shrink-0
+        items-center justify-center
+        rounded-lg
+        text-sm font-semibold
+      "
                     style={{ backgroundColor: tint.bg, color: tint.fg }}
                   >
                     {workspace.name[0].toUpperCase()}
@@ -106,7 +109,7 @@ const YourWorkpsaces = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })
         )}

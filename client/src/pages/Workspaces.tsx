@@ -10,9 +10,11 @@ const Workspaces = () => {
   }
 
   if (isError) {
-    <p className="rounded-xl border border-destructive/20 bg-card p-4 text-sm text-destructive shadow-[0_1px_2px_rgba(28,25,23,0.04)]">
-      Error fetching workspaces...
-    </p>;
+    return (
+      <p className="rounded-xl border border-destructive/20 bg-card p-4 text-sm text-destructive shadow-[0_1px_2px_rgba(28,25,23,0.04)]">
+        Error fetching workspaces...
+      </p>
+    );
   }
 
   if (workspaces?.length === 0) {

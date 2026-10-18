@@ -1,16 +1,13 @@
 import type { Workspace } from "@/features/workspace/workspaceApi";
 import WorkspaceCard from "./WorkspaceCard";
 import CreateWorkspace from "../sidebar/workspaceItems/CreateWorkspace";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type WorkspaceProps = {
   workspaces: Workspace[] | undefined;
 };
 
 const WorkspaceGrid = ({ workspaces }: WorkspaceProps) => {
-
-  const navigate = useNavigate();
-
   return (
     <div>
       <div className="mb-5 flex items-center justify-end">
@@ -36,13 +33,23 @@ const WorkspaceGrid = ({ workspaces }: WorkspaceProps) => {
           xl:grid-cols-4
         "
       >
-        {workspaces?.map((workspace, index) => (
-          <div key={index} onClick={() => navigate(`/workspace/${workspace.id}`)}>
+        {workspaces?.map((workspace) => (
+          <Link
+            key={workspace.id}
+            to={`/workspace/${workspace.id}`}
+            className="
+              block rounded-xl
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-primary
+              focus-visible:ring-offset-2
+            "
+          >
             <WorkspaceCard
               name={workspace.name}
               description={workspace.description || "Workspace description"}
             />
-          </div>
+          </Link>
         ))}
       </div>
     </div>

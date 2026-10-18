@@ -1,7 +1,7 @@
 import Logout from "@/components/Logout";
 import CreateWorkspace from "../sidebar/workspaceItems/CreateWorkspace";
 
-const DashboardHero = ({ name }: { name: string }) => {
+const   DashboardHero = ({ name }: { name: string }) => {
   return (
     <section className="flex flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_1px_2px_rgba(28,25,23,0.04)] sm:flex-row sm:items-center sm:justify-between">
       <div>
