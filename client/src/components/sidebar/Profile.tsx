@@ -8,7 +8,7 @@ const Profile = ({ collapsed }: SidebarProps) => {
       className={`
             shrink-0
             border-t
-            border-neutral-800
+            border-border
             transition-all
             duration-300
             ${collapsed ? "p-3" : "p-4"}
@@ -22,7 +22,7 @@ const Profile = ({ collapsed }: SidebarProps) => {
               rounded-lg
               text-left
               transition
-              hover:bg-neutral-800
+              hover:bg-secondary
               ${collapsed ? "justify-center p-1" : "gap-3 p-2"}
             `}
       >
@@ -35,8 +35,9 @@ const Profile = ({ collapsed }: SidebarProps) => {
                 shrink-0
                 items-center
                 justify-center
-                rounded-full
-                bg-neutral-700
+                rounded-lg
+                bg-accent
+                text-accent-foreground
                 text-sm
                 font-medium
               "
@@ -47,9 +48,9 @@ const Profile = ({ collapsed }: SidebarProps) => {
         {/* USER INFO */}
         {!collapsed && (
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium">{user?.username}</p>
+            <p className="truncate text-sm font-medium text-foreground">{user?.username}</p>
 
-            <p className="truncate text-xs text-neutral-500">{user?.email}</p>
+            <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
           </div>
         )}
       </button>

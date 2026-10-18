@@ -9,6 +9,7 @@ import {
 
 const router = express.Router();
 
+//Get all user workspaces
 router.get("/", protect, getUserWorkspacesController);
 router.get("/:workspaceId", protect, getWorkspaceController);
 router.post("/", protect, createWorkspaceController);

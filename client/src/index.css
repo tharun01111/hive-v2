@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   HIVE DESIGN TOKENS  (single source of truth for all colors)
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg-page: #f6f4f0;
+  --bg-sidebar: #efebe4;
+  --bg-card: #ffffff;
+  --border: #e8e4dc;
+
+  /* Text */
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #8a847c;
+
+  /* Accent – the only brand color */
+  --accent: #2f5d50;
+  --accent-hover: #264c42;
+  --accent-tint: #e3ede9;
+
+  /* Status */
+  --success: #3f7d5a;
+  --warning: #b7791f;
+  --danger: #b4453a;
+
+  /* Workspace avatar tints (cycled by index) */
+  --ws-sage-bg: #dce6df;
+  --ws-sage-fg: #2f5d50;
+  --ws-sand-bg: #eadfcb;
+  --ws-sand-fg: #7a5c1e;
+  --ws-clay-bg: #ebd5cb;
+  --ws-clay-fg: #8a4a36;
+  --ws-slate-bg: #d9dfe6;
+  --ws-slate-fg: #3b4b63;
+
+  /* ── Tailwind / shadcn compatibility aliases ─────────────── */
+  /* These let existing Tailwind utilities keep resolving to  */
+  /* the new palette without renaming every class in JSX.     */
+
+  /* background / foreground */
+  --background: var(--bg-page);
+  --foreground: var(--text-primary);
+
+  /* card */
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+
+  /* primary → accent (the brand green) */
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+
+  /* secondary → slightly darker page surface for hover states */
+  --secondary: #e8e3da;
+  --secondary-foreground: var(--text-primary);
+
+  /* muted → sidebar surface */
+  --muted: var(--bg-sidebar);
+  --muted-foreground: var(--text-muted);
+
+  /* accent → accent-tint (light green wash) */
+  --accent-tw: var(--accent-tint);
+  --accent-foreground: var(--accent);
+
+  /* border / input */
+  --input: var(--border);
+
+  /* ring → accent at ~40% opacity (focus outline) */
+  --ring: var(--accent);
+
+  /* destructive */
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent-tw);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+}
+
+@layer base {
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: Inter, sans-serif;
+  }
+
+  /* Focus states: 2px accent ring at ~40% opacity */
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    outline-offset: 2px;
+  }
+}

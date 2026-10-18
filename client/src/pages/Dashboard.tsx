@@ -12,21 +12,20 @@ const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-neutral-50 md:flex">
-      <Sidebar
-        collapsed={collapsed}
-        onToggle={() => setCollapsed(!collapsed)}
-      />
+    <div className="flex h-screen overflow-hidden bg-background">
+      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
 
-      <main className="min-w-0 flex-1">
-        <div className="mx-auto max-w-7xl space-y-10 px-4 py-6 sm:px-6 lg:px-8">
-          <DashboardHero name={user?.username ?? "User"} />
+      <main className="min-w-0 flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-7xl space-y-8 px-4 py-6 sm:px-6 lg:px-8">
+          <div className="flex min-h-full flex-col gap-6">
+            <DashboardHero name={user?.username || "User"} />
 
-          <DashboardStats />
+            <DashboardStats />
 
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.7fr_1fr]">
-            <YourWorkspaces />
-            <RecentActivity />
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.35fr_1fr]">
+              <YourWorkspaces />
+              <RecentActivity />
+            </div>
           </div>
         </div>
       </main>

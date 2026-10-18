@@ -20,15 +20,12 @@ export function DeleteWorkspaceButton({ workspaceId }: DelteWorkspaceProps) {
 
   return (
     <Dialog>
-      <DialogTrigger
-        render={<Button variant="outline">Delete Workspace</Button>}
-      />
+      <DialogTrigger render={<Button variant="outline">Delete Workspace</Button>} />
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Delete Workspace</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this workspace? This action cannot
-            be undone.
+            Are you sure you want to delete this workspace? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-start">

@@ -6,6 +6,64 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id                   Int               @id @default(autoincrement())
+  email                String            @unique
+  password             String
+  username             String
+  role                 Role              @default(USER)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  projectMemberships   ProjectMember[]
+  workspaceMemberships WorkspaceMember[]
+}
+
+model Workspace {
+  id          String            @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  projects    Project[]
+  members     WorkspaceMember[]
+}
+
+model WorkspaceMember {
+  id          String        @id @default(uuid())
+  userId      Int
+  workspaceId String
+  role        WorkspaceRole
+  joinedAt    DateTime      @default(now())
+  user        User          @relation(fields: [userId], references: [id])
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model Project {
+  id          String            @id @default(uuid())
+  name        String
+  description String?
+  workspaceId String
+  visibility  ProjectVisibility @default(PUBLIC)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  workspace   Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  members     ProjectMember[]
+}
+
+model ProjectMember {
+  id        String      @id @default(uuid())
+  userId    Int
+  projectId String
+  role      ProjectRole
+  joinedAt  DateTime    @default(now())
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id])
+
+  @@unique([userId, projectId])
+}
+
 enum Role {
   USER
   ADMIN
@@ -26,68 +84,4 @@ enum ProjectRole {
 enum ProjectVisibility {
   PUBLIC
   PRIVATE
-}
-
-model User {
-  id                   Int               @id @default(autoincrement())
-  email                String            @unique
-  password             String
-  username             String
-  role                 Role              @default(USER)
-  workspaceMemberships WorkspaceMember[]
-  projectMemberships   ProjectMember[]
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-}
-
-model Workspace {
-  id          String            @id @default(uuid())
-  name        String
-  description String?
-  members     WorkspaceMember[]
-  projects    Project[]
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-}
-
-model WorkspaceMember {
-  id          String        @id @default(uuid())
-  userId      Int
-  workspaceId String
-  role        WorkspaceRole
-
-  user      User      @relation(fields: [userId], references: [id])
-  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-
-  joinedAt DateTime @default(now())
-
-  @@unique([userId, workspaceId])
-}
-
-model Project {
-  id          String            @id @default(uuid())
-  name        String
-  description String?
-  workspaceId String
-  visibility  ProjectVisibility @default(PUBLIC)
-
-  workspace Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  members   ProjectMember[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model ProjectMember {
-  id        String      @id @default(uuid())
-  userId    Int
-  projectId String
-  role      ProjectRole
-
-  user    User    @relation(fields: [userId], references: [id])
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  joinedAt DateTime @default(now())
-
-  @@unique([userId, projectId])
 }

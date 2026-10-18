@@ -7,7 +7,7 @@ const WorkspaceSection = ({ collapsed }: SidebarProps) => {
     <section className={collapsed ? "py-4" : "px-3 py-5"}>
       {!collapsed && (
         <div className="mb-3 flex items-center justify-between px-2">
-          <p className="text-xs font-medium tracking-wider text-neutral-500">
+          <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground">
             WORKSPACES
           </p>
 
@@ -16,10 +16,10 @@ const WorkspaceSection = ({ collapsed }: SidebarProps) => {
             className="
               flex h-7 w-7 items-center justify-center
               rounded-md
-              text-neutral-400
+              text-muted-foreground
               transition-all duration-200
-              hover:bg-neutral-800
-              hover:text-white
+              hover:bg-secondary
+              hover:text-foreground
               active:scale-95
             "
           />
@@ -34,14 +34,12 @@ const WorkspaceSection = ({ collapsed }: SidebarProps) => {
           className="
             mt-4 flex w-full items-center gap-2
             rounded-lg
-            border border-neutral-800
-            bg-neutral-900/50
+            border border-border border-dashed
+            bg-card
             px-3 py-2.5
-            text-sm font-medium text-neutral-400
+            text-sm font-medium text-secondary-foreground
             transition-all duration-200
-            hover:border-neutral-700
-            hover:bg-neutral-800
-            hover:text-white
+            hover:bg-muted
             active:scale-[0.99]
           "
         />

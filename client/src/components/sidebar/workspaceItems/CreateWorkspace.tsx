@@ -16,7 +16,10 @@ const CreateWorkspace = ({ variant = "full", className }: CreateWorkspaceProps) 
 
   return (
     <div>
-      <button onClick={handleOpen} className={className}>
+      <button
+        onClick={handleOpen}
+        className={`inline-flex items-center justify-center gap-2 ${className ?? ""}`}
+      >
         {variant === "icon" && <Plus size={16} />}
 
         {variant === "full" && (

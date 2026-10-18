@@ -39,17 +39,10 @@ export const projectApiSlice = createApi({
     }),
 
     //get project by Id
-    getProjectById: builder.query<
-      Project,
-      { workspaceId: string; projectId: string }
-    >({
-      query: ({ workspaceId, projectId }) =>
-        `/workspaces/${workspaceId}/projects/${projectId}`,
-      transformResponse: (response: { success: boolean; project: Project }) =>
-        response.project,
-      providesTags: (_result, _error, { projectId }) => [
-        { type: "Projects", id: projectId },
-      ],
+    getProjectById: builder.query<Project, { workspaceId: string; projectId: string }>({
+      query: ({ workspaceId, projectId }) => `/workspaces/${workspaceId}/projects/${projectId}`,
+      transformResponse: (response: { success: boolean; project: Project }) => response.project,
+      providesTags: (_result, _error, { projectId }) => [{ type: "Projects", id: projectId }],
     }),
 
     //create a project

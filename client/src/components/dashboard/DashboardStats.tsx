@@ -27,19 +27,35 @@ const DashboardStats = () => {
     },
   ];
 
-   if (isLoading) {
-    return <p>Loading dashboard stats...</p>;
+  if (isLoading) {
+    return (
+      <p className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground shadow-sm">
+        Loading dashboard stats...
+      </p>
+    );
   }
 
-  if(isError) 
-    return <p>Error in fetching workspaces...</p>
+  if (isError)
+    return (
+      <p className="rounded-xl border border-destructive/20 bg-card p-4 text-sm text-destructive shadow-sm">
+        Error in fetching workspaces...
+      </p>
+    );
 
   return (
-    <div className="mt-10">
-      <h2 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">
-        Overview
-      </h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 ">
+    <section>
+      <div className="mb-4 flex items-end justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            At a glance
+          </p>
+          <h2 className="mt-1 text-lg font-semibold text-foreground">Overview</h2>
+        </div>
+        <span className="hidden text-xs text-muted-foreground sm:block">
+          Your workspace activity
+        </span>
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
           <StatsCard
             key={stat.title}
@@ -49,7 +65,7 @@ const DashboardStats = () => {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -33,21 +33,15 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const loginEmp = createAsyncThunk(
-  "auth/login",
-  async (data: LoginUser) => {
-    const response = await loginUser(data);
-    return response;
-  },
-);
+export const loginEmp = createAsyncThunk("auth/login", async (data: LoginUser) => {
+  const response = await loginUser(data);
+  return response;
+});
 
-export const registerEmp = createAsyncThunk(
-  "auth/register",
-  async (data: RegisterUser) => {
-    const response = await registerUser(data);
-    return response;
-  },
-);
+export const registerEmp = createAsyncThunk("auth/register", async (data: RegisterUser) => {
+  const response = await registerUser(data);
+  return response;
+});
 
 export const initializeAuth = createAsyncThunk<
   {
@@ -116,9 +110,7 @@ const authSlice = createSlice({
       .addCase(loginEmp.rejected, (state, action) => {
         state.loading = false;
         state.error =
-          (action.payload as string) ??
-          action.error.message ??
-          "Something went wrong...";
+          (action.payload as string) ?? action.error.message ?? "Something went wrong...";
       })
 
       //register
@@ -159,8 +151,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         state.token = null;
-        state.error =
-          action.payload ?? action.error.message ?? "Something went wrong";
+        state.error = action.payload ?? action.error.message ?? "Something went wrong";
       });
   },
 });

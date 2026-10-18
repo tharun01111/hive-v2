@@ -4,18 +4,16 @@ type SidebarNavigationProps = {
   collapsed: boolean;
 };
 
-const SidebarNavigation = ({
-  collapsed,
-}: SidebarNavigationProps) => {
+const SidebarNavigation = ({ collapsed }: SidebarNavigationProps) => {
   return (
-    <nav className="border-t border-neutral-800 px-3 py-3">
+    <nav className="border-t border-border px-3 py-3">
       <button
         className={`
           flex w-full items-center rounded-md
-          text-sm text-neutral-400
+          text-sm text-muted-foreground
           transition-colors
-          hover:bg-neutral-800
-          hover:text-white
+          hover:bg-secondary
+          hover:text-foreground
           ${collapsed ? "justify-center px-0" : "gap-3 px-3"}
           h-10
         `}
@@ -28,10 +26,10 @@ const SidebarNavigation = ({
       <button
         className={`
           flex w-full items-center rounded-md
-          text-sm text-neutral-400
+          text-sm text-muted-foreground
           transition-colors
-          hover:bg-neutral-800
-          hover:text-white
+          hover:bg-secondary
+          hover:text-foreground
           ${collapsed ? "justify-center px-0" : "gap-3 px-3"}
           h-10
         `}
