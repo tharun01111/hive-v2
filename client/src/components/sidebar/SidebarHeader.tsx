@@ -9,7 +9,7 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
             shrink-0
             items-center
             border-b
-            border-neutral-800
+            border-border
             transition-all
             duration-300
             ${collapsed ? "justify-center px-0" : "gap-3 px-5"}
@@ -28,11 +28,11 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
               items-center
               justify-center
               rounded-lg
-              bg-white
+              bg-primary
               font-bold
-              text-black
+              text-primary-foreground
               transition
-              hover:bg-neutral-200
+              hover:opacity-90
               cursor-pointer
             "
       >
@@ -46,11 +46,7 @@ const SidebarHeader = ({ collapsed, onToggle }: SidebarProps) => {
               font-semibold
               transition-all
               duration-200
-              ${
-                collapsed
-                  ? "w-0 overflow-hidden opacity-0"
-                  : "w-auto opacity-100"
-              }
+              ${collapsed ? "w-0 overflow-hidden opacity-0" : "w-auto opacity-100"}
             `}
       >
         Hive

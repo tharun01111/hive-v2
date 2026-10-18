@@ -44,11 +44,11 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="w-full max-w-md rounded-2xl bg-card p-8 shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-2">Hive</h1>
 
-        <p className="text-center text-gray-500 mb-8">Register to continue</p>
+        <p className="mb-8 text-center text-muted-foreground">Register to continue</p>
 
         <form className="space-y-5" onSubmit={handleSubmit(runRegister)}>
           <div>
@@ -57,12 +57,10 @@ const RegisterPage = () => {
               type="text"
               placeholder="Enter your username"
               {...register("username")}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-input bg-background px-4 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
             />
             {errors.username && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.username.message}
-              </p>
+              <p className="mt-1 text-sm text-destructive">{errors.username.message}</p>
             )}
           </div>
           <div>
@@ -72,12 +70,10 @@ const RegisterPage = () => {
               type="email"
               placeholder="Enter your email"
               {...register("email")}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-input bg-background px-4 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
+              <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>
             )}
           </div>
 
@@ -88,32 +84,28 @@ const RegisterPage = () => {
               type="password"
               placeholder="Enter your password"
               {...register("password")}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-input bg-background px-4 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
+              <p className="mt-1 text-sm text-destructive">{errors.password.message}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full rounded-lg bg-primary py-2 text-primary-foreground transition hover:bg-primary/80"
           >
             {loading ? "Registering..." : "Register"}
           </button>
 
           {error && (
-            <div className="bg-red-100 text-red-700 p-3 rounded-lg">
-              {error}
-            </div>
+            <div className="rounded-lg bg-destructive/10 p-3 text-destructive">{error}</div>
           )}
         </form>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="mt-6 text-center text-sm text-muted-foreground">
           Have an account?
-          <Link className="ml-1 text-blue-600 hover:underline" to="/login">
+          <Link className="ml-1 text-primary hover:underline" to="/login">
             Login
           </Link>
         </p>

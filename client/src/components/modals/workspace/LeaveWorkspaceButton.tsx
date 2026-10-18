@@ -1,8 +1,5 @@
-
 const LeaveWorkspaceButton = () => {
-  return (
-    <div>LeaveWorkspaceButton</div>
-  )
-}
+  return <div>LeaveWorkspaceButton</div>;
+};
 
-export default LeaveWorkspaceButton
+export default LeaveWorkspaceButton;

@@ -3,42 +3,33 @@ import CreateWorkspace from "../sidebar/workspaceItems/CreateWorkspace";
 
 const DashboardHero = ({ name }: { name: string }) => {
   return (
-    <div className="flex items-center justify-between rounded-2xl border p-6">
+    <section className="flex flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_1px_2px_rgba(28,25,23,0.04)] sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h3 className="text-3xl font-bold">Good Evening, {name}</h3>
-        <p className="text-gray-500 mt-2">Let's Build something today.</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Dashboard overview
+        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Good Evening, {name[0].toUpperCase() + name.slice(1, name.length)}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Let&apos;s build something meaningful today.
+        </p>
       </div>
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="flex flex-wrap gap-2">
         <CreateWorkspace
           variant="button"
           className="
-            inline-flex items-center justify-center
-            rounded-lg
-            border border-neutral-300
-            bg-white
-            px-3 py-1.5
-            text-sm font-medium text-black
-            transition-colors duration-200
-            hover:bg-neutral-100
-            active:bg-neutral-200
+            inline-flex items-center justify-center rounded-lg border border-border
+            bg-card px-3 py-2 text-sm font-medium text-foreground transition-colors
+            hover:bg-muted active:bg-secondary
           "
         />
-        <button
-          className="inline-flex items-center justify-center
-            rounded-lg
-            border border-neutral-300
-            bg-white
-            px-3 py-1.5
-            text-sm font-medium text-black
-            transition-colors duration-200
-            hover:bg-neutral-100
-            active:bg-neutral-200"
-        >
+        <button className="inline-flex items-center justify-center rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 active:scale-[0.98]">
           New Project
         </button>
         <Logout />
       </div>
-    </div>
+    </section>
   );
 };
 

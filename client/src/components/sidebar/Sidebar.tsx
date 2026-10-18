@@ -18,9 +18,9 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
         flex-col
         overflow-hidden
         border-r
-        border-neutral-800
-        bg-[#18181b]
-        text-white
+        border-border
+        bg-muted
+        text-foreground
         transition-[width]
         duration-300
         ease-in-out
@@ -28,10 +28,7 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
       `}
     >
       {/* Header */}
-      <SidebarHeader
-        collapsed={collapsed}
-        onToggle={onToggle}
-      />
+      <SidebarHeader collapsed={collapsed} onToggle={onToggle} />
 
       {/* Main sidebar content */}
       <div className="flex min-h-0 flex-1 flex-col">

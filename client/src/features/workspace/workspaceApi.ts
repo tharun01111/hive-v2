@@ -41,13 +41,9 @@ export const workspaceApiSlice = createApi({
     //Get workspace by id
     getWorkspaceById: builder.query<Workspace, string>({
       query: (workspaceId) => `workspaces/${workspaceId}`,
-      transformResponse: (response: {
-        success: boolean;
-        workspace: Workspace;
-      }) => response.workspace,
-      providesTags: (_result, _error, workspaceId) => [
-        { type: "Workspaces", id: workspaceId },
-      ],
+      transformResponse: (response: { success: boolean; workspace: Workspace }) =>
+        response.workspace,
+      providesTags: (_result, _error, workspaceId) => [{ type: "Workspaces", id: workspaceId }],
     }),
 
     //create workspace

@@ -1,29 +1,37 @@
-import {
-  CalendarDays,
-  ChevronDown,
-  ChevronRight,
-  FileText,
-  Folder,
-  Home,
-} from "lucide-react";
-
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import type { Workspace } from "@/features/workspace/workspaceApi";
+import ProjectList from "../projectItems/ProjectList";
 
 type WorkspaceItemProps = {
   workspace: Workspace;
   collapsed: boolean;
   isExpanded: boolean;
   onToggle: () => void;
+  index?: number;
 };
+
+// Workspace avatar tint palette – cycles by index
+const WS_TINTS = [
+  { bg: "var(--ws-sage-bg)", fg: "var(--ws-sage-fg)" },
+  { bg: "var(--ws-sand-bg)", fg: "var(--ws-sand-fg)" },
+  { bg: "var(--ws-clay-bg)", fg: "var(--ws-clay-fg)" },
+  { bg: "var(--ws-slate-bg)", fg: "var(--ws-slate-fg)" },
+];
 
 const WorkspaceItem = ({
   workspace,
   collapsed,
   isExpanded,
   onToggle,
+  index = 0,
 }: WorkspaceItemProps) => {
-  const initial = workspace.name.charAt(0).toUpperCase();
+  const navigate = useNavigate();
 
+  const initial = workspace.name.charAt(0).toUpperCase();
+  const tint = WS_TINTS[index % WS_TINTS.length];
+
+  // Collapsed sidebar
   if (collapsed) {
     return (
       <button
@@ -33,11 +41,11 @@ const WorkspaceItem = ({
         className="
           flex h-10 w-10 items-center justify-center
           rounded-lg
-          bg-neutral-800
-          text-sm font-semibold text-white
+          text-sm font-semibold
           transition-colors
-          hover:bg-neutral-700
+          hover:opacity-90
         "
+        style={{ backgroundColor: tint.bg, color: tint.fg }}
       >
         {initial}
       </button>
@@ -46,16 +54,12 @@ const WorkspaceItem = ({
 
   return (
     <div className="w-full">
-      {/* Workspace Header */}
+      {/* Workspace */}
       <div
         className={`
           flex items-center gap-2 rounded-lg px-2 py-2
           transition-colors
-          ${
-            isExpanded
-              ? "bg-neutral-800"
-              : "hover:bg-neutral-800/70"
-          }
+          ${isExpanded ? "bg-accent text-accent-foreground" : "text-foreground hover:bg-secondary"}
         `}
       >
         {/* Expand / Collapse */}
@@ -67,22 +71,19 @@ const WorkspaceItem = ({
           className="
             flex h-7 w-7 shrink-0 items-center justify-center
             rounded-md
-            text-neutral-400
+            text-muted-foreground
             transition-colors
-            hover:bg-neutral-700
-            hover:text-white
+            hover:bg-secondary
+            hover:text-foreground
           "
         >
-          {isExpanded ? (
-            <ChevronDown size={17} />
-          ) : (
-            <ChevronRight size={17} />
-          )}
+          {isExpanded ? <ChevronDown size={17} /> : <ChevronRight size={17} />}
         </button>
 
         {/* Workspace Name */}
         <button
           type="button"
+          onClick={() => navigate(`/workspace/${workspace.id}`)}
           className="
             flex min-w-0 flex-1 items-center gap-3
             text-left
@@ -92,98 +93,21 @@ const WorkspaceItem = ({
             className="
               flex h-9 w-9 shrink-0 items-center justify-center
               rounded-lg
-              bg-neutral-700
-              text-sm font-semibold text-white
+              text-sm font-semibold
             "
+            style={{ backgroundColor: tint.bg, color: tint.fg }}
           >
             {initial}
           </div>
 
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-white">
-              {workspace.name}
-            </p>
-          </div>
-
-          <span
-            className="
-              shrink-0
-              text-[11px] font-medium uppercase
-              tracking-wide
-              text-neutral-500
-            "
-          >
-            {workspace.role ?? "MEMBER"}
-          </span>
+          <p className="truncate text-sm font-semibold">{workspace.name}</p>
         </button>
       </div>
 
-      {/* Workspace Navigation */}
+      {/* Projects */}
       {isExpanded && (
-        <div className="mt-1 rounded-lg bg-neutral-900/40 py-1">
-          {/* Home */}
-          <button
-            type="button"
-            className="
-              flex w-full items-center gap-3
-              rounded-md px-4 py-2
-              text-sm text-white
-              bg-neutral-800
-            "
-          >
-            <Home size={18} />
-            <span>Home</span>
-          </button>
-
-          {/* Projects */}
-          <div>
-            <button
-              type="button"
-              className="
-                flex w-full items-center gap-3
-                rounded-md px-4 py-2
-                text-sm text-neutral-400
-                transition-colors
-                hover:bg-neutral-800
-                hover:text-white
-              "
-            >
-              <Folder size={18} />
-              <span>Projects</span>
-            </button> 
-          </div>
-
-          {/* Notes */}
-          <button
-            type="button"
-            className="
-              flex w-full items-center gap-3
-              rounded-md px-4 py-2
-              text-sm text-neutral-400
-              transition-colors
-              hover:bg-neutral-800
-              hover:text-white
-            "
-          >
-            <FileText size={18} />
-            <span>Notes</span>
-          </button>
-
-          {/* Calendar */}
-          <button
-            type="button"
-            className="
-              flex w-full items-center gap-3
-              rounded-md px-4 py-2
-              text-sm text-neutral-400
-              transition-colors
-              hover:bg-neutral-800
-              hover:text-white
-            "
-          >
-            <CalendarDays size={18} />
-            <span>Calendar</span>
-          </button>
+        <div className="ml-9 mt-1">
+          <ProjectList workspaceId={workspace.id} />
         </div>
       )}
     </div>
