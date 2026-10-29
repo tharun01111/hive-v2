@@ -29,7 +29,7 @@ const RegisterPage = () => {
 
       const result = await dispatch(registerEmp(data));
 
-      if (registerEmp.fulfilled.match(result)) navigate("/dashboard");
+      if (registerEmp.fulfilled.match(result)) void navigate("/dashboard");
       else setError("Registration Failed");
     } catch (err: unknown) {
       if (err instanceof Error) {

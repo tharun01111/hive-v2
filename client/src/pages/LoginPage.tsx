@@ -30,7 +30,7 @@ const LoginPage = () => {
       const result = await dispatch(loginEmp(data));
 
       if (loginEmp.fulfilled.match(result)) {
-        navigate("/dashboard");
+        void navigate("/dashboard");
       } else {
         setError("Login failed");
       }

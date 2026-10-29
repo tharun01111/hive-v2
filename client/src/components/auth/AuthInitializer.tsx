@@ -8,7 +8,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(initializeAuth()).finally(() => {
+    void dispatch(initializeAuth()).finally(() => {
       setInitialized(true);
     });
   }, [dispatch]);
